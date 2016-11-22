@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from models import UserProfile
+from models import UserProfile, Question
 from forms import UserProfileForm
 from django.contrib.auth import authenticate, login
 from django.http import HttpResponseRedirect, HttpResponse
@@ -13,14 +13,17 @@ from django.contrib.auth.models import User
 
 
 def index(request):
-    context_dict = {"string": "hello world"}
-    response = render(request,'index.html', context_dict)
+    context = {"string": "hello world"}
+    response = render(request,'index.html', context)
     return response
 
 def quiz(request):
-    response = render(request, 'quiz.html')
+    context = {}
+    question = Question.objects.all()[0]
+    print question
+    context["question"] = question
+    response = render(request, 'quiz.html', context)
     return response
-
 
 
 @login_required
@@ -31,32 +34,27 @@ def user_logout(request):
 
 @login_required
 def register_profile(request):
-    	context_dict = {}
-
-	if not request.method == 'POST':
-		context_dict['profile_form'] = UserProfileForm(request.GET)
-		return render(request, 'registration/profile_registration.html', context_dict)
-
-	profile_form = UserProfileForm(request.POST)
-	user = User.objects.get(id=request.user.id)
-
-	if profile_form.is_valid():
-		try: # Does a profile exist?
-			profile = UserProfile.objects.get(user=user)
-		except: # No?
-			profile = profile_form.save(commit=False)
-			profile.user = user
-		if 'website' in request.POST and request.POST['website']:
-			profile.website = request.POST['website']
-		if 'picture' in request.FILES and request.FILES.get('picture'):
-			profile.picture = request.FILES.get('picture')
-		profile.save()
-
-	return render(request, 'index.html', context_dict)
+    context = {}
+    if not request.method == 'POST':
+		context['profile_form'] = UserProfileForm(request.GET)
+		return render(request, 'registration/profile_registration.html', context)
+    else:
+    	profile_form = UserProfileForm(request.POST)
+    	user = User.objects.get(id=request.user.id)
+    	if profile_form.is_valid():
+    		try: # Does a profile exist?
+    			profile = UserProfile.objects.get(user=user)
+    		except: # No?
+    			profile = profile_form.save(commit=False)
+    			profile.user = user
+    		if 'picture' in request.FILES and request.FILES.get('picture'):
+    			profile.picture = request.FILES.get('picture')
+    		profile.save()
+    	return render(request, 'index.html', context)
 
 @login_required
 def profile(request):
-    context_dict = {}
+    context = {}
     user = User.objects.get(id=request.user.id)
     print user.username
     try:
@@ -65,6 +63,6 @@ def profile(request):
         profile = None
         print "NO PROFILE"
 
-    context_dict['userprofile'] = profile
+    context['userprofile'] = profile
 
-    return render(request, 'profile.html', context_dict)
+    return render(request, 'profile.html', context)

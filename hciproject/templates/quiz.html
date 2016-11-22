@@ -2,6 +2,11 @@
 {% block title %}Quiz{% endblock %}
 {% block body_block %}
 
-<p>//TODO: write a quiz?</p>
+<p>Question: {{ question.question }}</p>
+<img src="{{question.image.url}}" />
+<p>Correct: {{question.answers.correct}}</p>
 
+{% for answer in question.answers.incorrect %}
+    <p>Incorrect: {{answer}}</p>
+{% endfor %}
 {% endblock %}
