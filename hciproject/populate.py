@@ -9,7 +9,7 @@ questions = [
             "incorrect": ["Kelvingrove Art Gallery", "Oran Mor", "People's Palace"],
         },
         "question": "Identify the building pictured.",
-        "image": "pop_img/glasgow.jpg",
+        "image": "question_images/glasgow.jpg",
         "category": "L",
     }
 ]
