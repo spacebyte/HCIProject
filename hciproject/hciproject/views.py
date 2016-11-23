@@ -9,6 +9,7 @@ from django.contrib.auth import logout
 from datetime import datetime
 from django.shortcuts import redirect
 from django.contrib.auth.models import User
+import random
 
 
 
@@ -19,9 +20,18 @@ def index(request):
 
 def quiz(request):
     context = {}
-    question = Question.objects.all()[0]
-    print question
-    context["question"] = question
+    num_ques = len(Question.objects.all())
+    question_list = []
+    while len(question_list) < 3:
+        question = random.randint(0, num_ques-1)
+        if question not in question_list:
+            question_list.append(question)
+    questions = []
+    for id in question_list:
+        question = Question.objects.get(id=id)
+        questions.append(question)
+    print questions
+    context["questions"] = questions
     response = render(request, 'quiz.html', context)
     return response
 

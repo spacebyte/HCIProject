@@ -20,6 +20,7 @@ class UserProfile(models.Model):
 
 
 class Question(models.Model):
+    id = models.IntegerField(primary_key=True)
     answers = JSONField()
     question = models.CharField(max_length=255)
     image = models.ImageField(upload_to='question_images', blank=True)
