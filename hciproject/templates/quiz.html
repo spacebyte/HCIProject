@@ -1,12 +1,20 @@
 {% extends 'base.html' %} {% load staticfiles %}
 {% block title %}Quiz{% endblock %}
 {% block body_block %}
+<div class = "container">
+<div class ="row" style ="margin:10px;">
 
-<p>Question: {{ question.question }}</p>
-<img src="{{question.image.url}}" />
-<p>Correct: {{question.answers.correct}}</p>
+<div class = "col-md-7"><h1 style = "text-align:center">{{ question.question }}</h1></div>
+<div class = "col-md-5 "><img class="img-responsive"  src="{{question.image.url}}"/></div>
+<div class = "col-md-6" style = "text-align:center;">
+<button type="button" class="btn btn-primary" style = "border-radius:40px; width : 100% ; margin: 10px;"><h1>{{question.answers.correct}}</h1></button>
+<button type="button" class="btn btn-primary" style = "border-radius:40px; width : 100% ; margin: 10px;"><h1>dog</h1></button>
+</div>
+<div class = "col-md-6" style = "text-align:center;">
 
-{% for answer in question.answers.incorrect %}
-    <p>Incorrect: {{answer}}</p>
-{% endfor %}
+<button type="button" class="btn btn-primary" style = "border-radius:40px; width : 100% ; margin: 10px;"><h1>leg</h1></button>
+<button type="button" class="btn btn-primary" style = "border-radius:40px; width : 100% ; margin: 10px;"><h1>your dads house</h1></button>
+
+</div>
+</div>
 {% endblock %}
