@@ -32,5 +32,3 @@ class Question(models.Model):
     )
     category = models.CharField(max_length=1, choices=CATEGORIES, default='T')
     learn_text = models.CharField(max_length=255, blank=True)
-    def __unicode__(self):
-        return self.question

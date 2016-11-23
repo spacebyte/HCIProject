@@ -1,20 +1,169 @@
 {% extends 'base.html' %} {% load staticfiles %}
 {% block title %}Quiz{% endblock %}
 {% block body_block %}
-<div class = "container">
-<div class ="row" style ="margin:10px;">
+{% load static %}
+<link href="{% static 'css/style.css' %}" rel="stylesheet">
 
-<div class = "col-md-7"><h1 style = "text-align:center">{{ question.question }}</h1></div>
-<div class = "col-md-5 "><img class="img-responsive"  src="{{question.image.url}}"/></div>
-<div class = "col-md-6" style = "text-align:center;">
-<button type="button" class="btn btn-primary" style = "border-radius:40px; width : 100% ; margin: 10px;"><h1>{{question.answers.correct}}</h1></button>
-<button type="button" class="btn btn-primary" style = "border-radius:40px; width : 100% ; margin: 10px;"><h1>dog</h1></button>
-</div>
-<div class = "col-md-6" style = "text-align:center;">
 
-<button type="button" class="btn btn-primary" style = "border-radius:40px; width : 100% ; margin: 10px;"><h1>leg</h1></button>
-<button type="button" class="btn btn-primary" style = "border-radius:40px; width : 100% ; margin: 10px;"><h1>your dads house</h1></button>
+<style>
+div.fadeMe {
+  background: rgba(0,0,0,0.5);
+  width:      100%;
+  height:     100%;
+  z-index:    10;
+  top:        0;
+  left:       0;
+  position:   fixed;
+}
+</style>
 
+
+<div class="container">
+
+    <div class="fadeMe" id="fader">
+        <div class="container">
+            <div class="jumbotron">
+                <p id="fade_text"></p>
+                <button type="button" class="btn" id="next">
+                    Next Question
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="fadeMe" id="end_state">
+        <div class="container">
+            <div class="jumbotron">
+                <p id="end_text"></p>
+                    <a href="{% url 'index' %}"><button type="button" class="btn">Home</button></a>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-7">
+            <h1 style="text-align:center" id="question"></h1>
+        </div>
+        <div class = "col-md-5 ">
+            <img class="img-responsive" id="image"/>
+        </div>
+    </div>
+    <div class ="row">
+        <div class = "col-md-6" style = "text-align:center;">
+            <button type="button" class="btn answer-btn btn-primary" style = "border-radius:40px; width : 100% ; margin: 10px;" id="button_1">
+                <h1 id="answer_1"></h1>
+            </button>
+            <button type="button" class="btn answer-btn btn-primary" style = "border-radius:40px; width : 100% ; margin: 10px;" id="button_2">
+                <h1 id="answer_2"></h1>
+            </button>
+        </div>
+        <div class = "col-md-6" style = "text-align:center;">
+            <button type="button" class="btn answer-btn btn-primary" style = "border-radius:40px; width : 100% ; margin: 10px;" id="button_3">
+                <h1 id="answer_3"></h1>
+            </button>
+            <button type="button" class="btn answer-btn btn-primary" style = "border-radius:40px; width : 100% ; margin: 10px;" id="button_4">
+                <h1 id="answer_4"></h1>
+            </button>
+        </div>
+    </div>
 </div>
-</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script type="text/javascript">
+    var questions = {{questions|safe}};
+    var q_id = 0;
+
+
+    $(document).ready(function(){
+        $("#end_state").hide();
+        $("#fader").hide();
+        load_question(q_id);
+    });
+
+    function load_question(id){
+        reset_buttons();
+        var question = questions[id];
+        $("#question").html(question.question);
+        $("#image").attr("src", '/media/'+question.image);
+        load_buttons(question.answers);
+    }
+
+    function load_buttons(answers){
+        var button_list = [1,2,3,4];
+        var correct_button = rand_button();
+        var index = button_list.indexOf(correct_button);
+        if (index > -1) {
+            button_list.splice(index, 1);
+        }
+        assign_button(correct_button, answers.correct, true);
+        for (var i = 0; i < button_list.length; i++){
+            assign_button(button_list[i], answers.incorrect[i]);
+        }
+    }
+
+    function assign_button(button_id, answer, is_correct=false){
+        $("#answer_"+String(button_id)).html(answer);
+        if (is_correct){
+            $("#button_"+String(button_id)).val("correct");
+        } else {
+            $("#button_"+String(button_id)).val("incorrect");
+        }
+
+    }
+
+    function rand_button() {
+        return Math.floor(Math.random() * (4 - 1 + 1)) + 1;
+    }
+
+    $(".answer-btn").click(function() {
+        var string = ""
+        console.log($(this).val());
+        if ($(this).val() == "correct"){
+            $(this).removeClass("btn-primary");
+            $(this).addClass("btn-success");
+            string = "CORRECT"
+        } else {
+            $(this).removeClass("btn-primary");
+            $(this).addClass("btn-danger");
+            string = "INCORRECT"
+        }
+        $('#fade_text').text(string);
+        $('#fader').fadeIn();
+
+    })
+
+    $('#next').click(function(){
+        $('#fader').fadeOut()
+        next_question();
+    });
+
+    function reset_buttons(){
+        $(".btn").removeClass("btn-success");
+        $(".btn").removeClass("btn-danger");
+        $(".btn").removeClass("btn-primary");
+        $(".btn").addClass("btn-primary");
+
+    }
+
+    function next_question(){
+        ++q_id;
+        if (q_id < questions.length){
+            load_question(q_id);
+        } else {
+            end_quiz()
+        }
+    }
+
+    function end_quiz(){
+        var string = "It's done!";
+        $('#end_state').fadeIn()
+        $("#end_text").text(string);
+    }
+
+
+
+
+
+</script>
 {% endblock %}

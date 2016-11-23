@@ -10,8 +10,12 @@ from datetime import datetime
 from django.shortcuts import redirect
 from django.contrib.auth.models import User
 import random
+import json
+from django.core.serializers.json import DjangoJSONEncoder
 
-
+class MyEncoder(json.JSONEncoder):
+    def default(self, o):
+        return o.__dict__
 
 def index(request):
     context = {"string": "hello world"}
@@ -31,7 +35,7 @@ def quiz(request):
         question = Question.objects.get(id=id)
         questions.append(question)
     print questions
-    context["questions"] = questions
+    context["questions"] = json.dumps(questions, cls=MyEncoder)
     response = render(request, 'quiz.html', context)
     return response
 
