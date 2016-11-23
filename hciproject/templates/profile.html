@@ -3,19 +3,86 @@
 {% block title %}Profile{% endblock %}
 
 {% block body_block %}
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script>$(function () {
+
+    $(document).ready(function () {
+
+        // Build the chart
+        Highcharts.chart('container', {
+            chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: null,
+                plotShadow: false,
+                type: 'pie'
+            },
+            title: {
+                text: 'Scores'
+            },
+            tooltip: {
+                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: false
+                    },
+                    showInLegend: true
+                }
+            },
+            series: [{
+                name: 'Brands',
+                colorByPoint: false,
+                data: [{
+                    name: 'Trivia',
+                    y: 36.33,
+                    color:'#884dff'
+                }, {
+                    name: 'Location',
+                    y: 24.03,
+                    sliced: true,
+                    selected: true,
+                    color:'#008ae6'
+                }, {
+                    name: 'People',
+                    y: 10.38,
+                    color:'#ff4dc4'
+                }, {
+                    name: 'History',
+                    y: 24.77,
+                    color:'#33ffad'
+                }]
+            }]
+        });
+    });
+});</script>
 <div class="hero-unit">
-   	   <h1> Profile <h1> <br/>
+   	   <h1 style = "text-align:center;"> Profile </h1> <br/>
+		<div class= "container col-md-4 col-md-offset-1">
 	   <h2>{{ user.username }}</h2>
+			{% if userprofile %}
+			
+       {% if userprofile.picture %}
+	   <img src="{{ userprofile.picture.url}}"  />
+	   {% endif %}
+			{% endif %}
        <p>Email: {{ user.email }}</p>
 
        {% if userprofile %}
 	   <p>Website: <a href="{{ userprofile.website }}">{{userprofile.website}}</a></p>
            <br/>
-       {% if userprofile.picture %}
-	   <img src="{{ userprofile.picture.url}}"  />
 	   {% endif %}
-	   {% endif %}
+			<button><a href="{% url 'auth_password_change' %}">Password change</a></button>
+			<hr>
+
+	</div>
+
+
+ <div class = "container col-md-4 col-md-offset-3">
+        	<div id="container" style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto"></div></div>
 </div>
-<p>Password Change</p>
-<a href="{% url 'auth_password_change' %}">Click Here</a>
 {% endblock %}
