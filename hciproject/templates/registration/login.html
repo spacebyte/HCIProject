@@ -5,17 +5,17 @@
 {% block title %}Login{% endblock %}
 
 {% block body_block %}
-
-<link href="http://getbootstrap.com/examples/signin/signin.css" rel="stylesheet">
+<div class="container col-md-6 col-md-offset-3">
 
 <form class="form-signin" role="form" method="post" action=".">
 {% csrf_token %}
 
-<h2 class="form-signin-heading">Please sign in</h2>
-<input class="form-control" placeholder="Username" id="id_username" maxlength="254" name="username" type="text" required autofocus=""/>
-<input type="password" class="form-control" placeholder="Password" id="id_password" name="password" type="password" required />
-
-        <button class="btn btn-lg btn-primary btn-block" type="submit" value="Submit" />Sign in</button>
+<h2 class="form-signin-heading" style = "text-align:center; margin:10px;">Please sign in</h2>
+<input class="form-control" placeholder="Username" id="id_username" maxlength="254" name="username" type="text" required autofocus="" style = "margin:10px;"/>
+<input type="password" class="form-control" placeholder="Password" id="id_password" name="password"style = "margin:10px;" type="password" required  />
+	
+        <button class="btn btn-lg btn-primary btn-block" type="submit" value="Submit" style = "margin:10px;">Sign in</button>
         </form>
+</div>
 
 {% endblock %}
