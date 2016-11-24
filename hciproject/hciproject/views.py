@@ -26,7 +26,7 @@ def quiz(request):
     context = {}
     num_ques = len(Question.objects.all())
     question_list = []
-    while len(question_list) < 3:
+    while len(question_list) < 10:
         question = random.randint(0, num_ques-1)
         if question not in question_list:
             question_list.append(question)
