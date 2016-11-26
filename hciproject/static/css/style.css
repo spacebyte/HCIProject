@@ -1,19 +1,96 @@
 div.fadeMe {
-  opacity:    0.5;
-  background: #000;
+    margin-top: -20px;
+  background: rgba(0,0,0,0.5);
   width:      100%;
   height:     100%;
   z-index:    10;
-  top:        0;
+  top:        35;
   left:       0;
   position:   fixed;
 }
 
-a.button {
-    -webkit-appearance: button;
-    -moz-appearance: button;
-    appearance: button;
+div.fade-area{
+    margin: 40px 40px 40px 40px;
+    text-align: center;
 
-    text-decoration: none;
-    color: initial;
+}
+
+p.result-text{
+    background: linear-gradient(to right, rgba(255,0,0,0), rgba(255,0,0,1), rgba(255,0,0,0));
+    font-size: 60px;
+    color: #fff;
+}
+
+p.incorrect-text{
+    background: linear-gradient(to right, rgba(255,0,0,0), rgba(255,0,0,1), rgba(255,0,0,0));
+}
+
+p.correct-text{
+    background: linear-gradient(to right, rgba(0,255,0,0), rgba(0,255,0,1), rgba(0,255,0,0));
+}
+
+p.learn-text{
+    font-size: 30px;
+    color: #fff;
+    background: linear-gradient(to right, rgba(0,0,0,0), rgba(0,0,0,1), rgba(0,0,0,0));
+}
+
+img.question-img{
+    max-height: 355px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 10px;
+}
+
+div.img-row{
+    height: 360px;
+}
+
+.center-row{
+    display: inline-block;
+    position:relative;
+}
+
+.center-div{
+    vertical-align: middle;
+}
+
+.vcenter {
+    display: inline-block;
+    vertical-align: middle;
+    float: none;
+}
+
+.progress-bar-vertical {
+  width: 100%;
+  height: 560px;
+  display: block;
+  margin: 0px 10px 0px 10px;
+  margin-left: auto;
+  margin-right: auto;
+  align-items: flex-end;
+  float: left;
+}
+
+.progress-bar-vertical .progress-bar {
+  width: 100%;
+  height: 560px;
+  transition: height 0.1s ease;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#invisidiv{
+    width: 100%;
+    height: 0;
+    transition: height 0.1s ease;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.main-quiz-container{
+    padding-top: 20px;
 }

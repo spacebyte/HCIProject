@@ -31,4 +31,4 @@ urlpatterns = [
     url(r'^profile/$', views.profile, name='profile'),
     url(r'^accounts/register/$', RegistrationBypass.as_view(), name='registration_register'),
     url(r'^accounts/', include('registration.backends.simple.urls')),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

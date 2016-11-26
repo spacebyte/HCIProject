@@ -79,7 +79,7 @@ questions = [
         "question": "In which part of Glasgow is the Scottish comedy 'Still Game' predominantly filmed?",
         "image": "question_images/005.jpg",
         "category": "T",
-        "learn_text": "The fictional area of Craiglang was complied of many areas of Glasgow, though most filming fo exteriors was done in Maryhill."
+        "learn_text": "The fictional area of Craiglang was complied of many areas of Glasgow, though most filming of exteriors took place in Maryhill."
     },
     {
         "answers": {
@@ -126,7 +126,7 @@ questions = [
             "correct": "Donald Dewar",
             "incorrect": ["George Galloway", "Menzies Campbell", "Tommy Sheridan"],
         },
-        "question": "Identify this Glasweigan Politician.",
+        "question": "Identify this Glaswegian Politician.",
         "image": "question_images/011.jpeg",
         "category": "P",
         "learn_text": "Donald Dewar was leader of the Scottish Labour Party in 1999 and was elected First Minister of Scotland in 2000. He died while in office."
