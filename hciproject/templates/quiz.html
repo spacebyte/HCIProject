@@ -2,6 +2,7 @@
 {% block title %}Quiz{% endblock %}
 {% block body_block %}
 {% load static %}
+{% load quiz_extras %}
 <link href="{% static 'css/style.css' %}" rel="stylesheet">
 
 
@@ -14,8 +15,8 @@
             <div class="fade-area">
                 <p id="result_text" class="result-text"></p>
                 <p id="learn_text" class="learn-text"></p>
-                <button type="button" class="btn" id="next">
-                    Next Question
+                <button type="button" class="btn-lg btn-secondary" id="next">
+                    Next Question <span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span>
                 </button>
             </div>
         </div>
@@ -29,10 +30,23 @@
         </div>
     </div>
     <!-- END FADE MODAL -->
+
     <div class="row">
         <div class="col-md-1">
         </div>
         <div class="col-md-10">
+            <div class="row">
+                <div class="col-md-12">
+                	<div class="progress">
+                        {% for i in "xxxxxxxxxx" %}
+                            <div class="question-progress no-color" id="progress_{{ forloop.counter }}" style="left: {{ forloop.counter|multiply:9.5 }}%;"></div>
+                        {% endfor %}
+                  		<div class="progress-bar" id="progress_background" style="width: 10%;"></div>
+                	</div>
+                </div>
+            </div>
+            <div class="col-md-1">
+            </div>
             <div class="row center-row img-row">
                 <div class="col-md-6 vcenter">
                     <h1 style="text-align:center" id="question"></h1>
@@ -63,8 +77,7 @@
         <div class="col-md-1">
             <div class="progress progress-bar-vertical">
                 <div id="invisidiv"></div>
-                <div id="timer" class="progress-bar progress-bar-danger progress-bar-striped" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
-                    <span class="sr-only">100% Complete</span>
+                <div id="timer" class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
                 </div>
             </div>
         </div>
@@ -96,6 +109,12 @@
             console.log(time);
             $("#timer").css('height', String(time)+"%");
             $("#invisidiv").css('height', String(margin)+"%");
+            if (time == 50){
+                generic_class("timer", "progress-bar-success", "progress-bar-warning")
+            }
+            if (time == 25){
+                generic_class("timer", "progress-bar-warning", "progress-bar-danger")
+            }
         } else {
             if (!handled){
                 time_up();
@@ -103,12 +122,26 @@
         }
     }
 
+    function progress_class(id, old_class, new_class){
+        $('#progress_'+String(id)).removeClass(old_class);
+        $('#progress_'+String(id)).addClass(new_class);
+    }
+
+    function generic_class(id, old_class, new_class){
+        $('#'+String(id)).removeClass(old_class);
+        $('#'+String(id)).addClass(new_class);
+    }
+
     function load_question(id){
+        $('#timer').removeClass("progress-bar-warning");
+        $('#timer').removeClass("progress-bar-danger");
+        $('#timer').addClass("progress-bar-success");
         reset_buttons();
         var question = questions[id];
         $("#question").html(question.question);
         $("#image").attr("src", '/media/'+question.image);
         load_buttons(question.answers);
+        progress_class(id+1, "no-color", "in-progress");
     }
 
     function load_buttons(answers){
@@ -150,13 +183,17 @@
             $('#result_text').removeClass("correct-text");
             $('#result_text').addClass("correct-text");
             string = "CORRECT"
+            progress_class(q_id+1, "in-progress", "success-color");
         } else {
             $('#result_text').removeClass("incorrect-text");
             $('#result_text').removeClass("correct-text");
             $('#result_text').addClass("incorrect-text");
             $(this).removeClass("btn-primary");
             $(this).addClass("btn-danger");
+            $('.answer-btn').filter(function(){return this.value=='correct'}).removeClass("btn-primary");
+            $('.answer-btn').filter(function(){return this.value=='correct'}).addClass("btn-success");
             string = "INCORRECT"
+            progress_class(q_id+1, "in-progress", "danger-color");
         }
         var learn_text = questions[q_id].learn_text;
         $('#result_text').text(string);
@@ -187,6 +224,9 @@
         time = 100;
         $("#timer").css('height', String(time)+"%");
         $("#invisidiv").css('height', String(0)+"%");
+        progress_class(q_id+1, "in-progress", "danger-color");
+        $('.answer-btn').filter(function(){return this.value=='correct'}).removeClass("btn-primary");
+        $('.answer-btn').filter(function(){return this.value=='correct'}).addClass("btn-success");
     }
 
     $('#next').click(function(){
@@ -208,6 +248,7 @@
     function next_question(){
         ++q_id;
         if (q_id < questions.length){
+            $("#progress_background").css('width', String((q_id+1)*10)+"%");
             load_question(q_id);
         } else {
             end_quiz()

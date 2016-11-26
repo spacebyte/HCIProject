@@ -36,7 +36,7 @@ p.learn-text{
 }
 
 img.question-img{
-    max-height: 355px;
+    max-height: 320px;
     display: block;
     margin-left: auto;
     margin-right: auto;
@@ -44,7 +44,7 @@ img.question-img{
 }
 
 div.img-row{
-    height: 360px;
+    min-height: 320px;
 }
 
 .center-row{
@@ -63,7 +63,7 @@ div.img-row{
 }
 
 .progress-bar-vertical {
-  width: 100%;
+  width: 50%;
   height: 560px;
   display: block;
   margin: 0px 10px 0px 10px;
@@ -93,4 +93,54 @@ div.img-row{
 
 .main-quiz-container{
     padding-top: 20px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.question-progress{
+    position:absolute;
+	margin-top:-10px;
+	z-index:1;
+	height:40px;
+	width:40px;
+	border-radius:25px;
+
+}
+
+
+.primary-color{
+	background-color:#4989bd;
+}
+.success-color{
+	background-color:#5cb85c;
+}
+.danger-color{
+	background-color:#d9534f;
+}
+.warning-color{
+	background-color:#f0ad4e;
+}
+.info-color{
+	background-color:#5bc0de;
+}
+.no-color{
+	background-color:inherit;
+}
+.in-progress{
+    background-color:#4989bd;
 }
