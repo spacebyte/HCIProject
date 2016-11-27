@@ -3,7 +3,7 @@
 {% block body_block %}
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.0.1/howler.js"></script>
  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.js"></script>
-
+ <link href="{% static 'css/table.css' %}" rel="stylesheet">
 <script>
 	$.fn.pageMe = function(opts){
     var $this = this,
@@ -114,6 +114,7 @@ $(document).ready(function(){
         
 
     {% endif %}
+
     <div class = "container col-md-6">
         <h3> Scoreboard</h3>
 		
@@ -189,11 +190,13 @@ $(document).ready(function(){
         	
         	
         	</div>
+<hr>
+<hr>
         	<div  class="jumbotron col-md-5 col-md-offset-1">
-    <a href="{% url 'quiz' %}">
+    <a class="btn btn-custom" href="{% url 'quiz' %}">
         <h1 onmouseover = "var sound = new Howl({
   src: ['/home/rachel/Desktop/HCIProject/hciproject/templates/sound/metal1.mp3']
-});sound.play();" >Care to do a quiz?</h1>
+						   });sound.play();" >Start Quiz!</h1>
     </a>
 </div>
 

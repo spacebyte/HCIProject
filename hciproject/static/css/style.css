@@ -9,6 +9,10 @@ div.fadeMe {
   position:   fixed;
 }
 
+.navbar{
+  color:white;
+  background-color: #09335d;
+}
 div.fade-area{
     margin: 40px 40px 40px 40px;
     text-align: center;
