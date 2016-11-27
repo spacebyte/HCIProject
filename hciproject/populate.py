@@ -2,6 +2,12 @@ import os
 from django.core.wsgi import get_wsgi_application
 
 
+def total_score(score):
+    total = 0
+    for header in score:
+        total += score[header]
+    return total
+
 """ Question template
 
 {
@@ -15,18 +21,81 @@ from django.core.wsgi import get_wsgi_application
     "learn_text": ""
 }
 
+    User Profile template
+
+{
+    "username": "",
+    "email": "@email.com",
+    "password": "",
+    "picture": "profile_images/",
+    "score": {
+        "L": , "T": , "H": , "P": , "B":
+    },
+    "location" : ""
+}
+
 """
+
 profiles = [
     {
-        "picture": "profile_images/capture.jpg",
+        "username": "John",
+        "email": "john@email.com",
+        "password": "johnpassword",
+        "picture": "profile_images/user.jpg",
         "score": {
-            "L": 200,
-            "T": 120,
-            "H": 40,
-            "P": 90,
-            "B":430
+            "L": 0, "T": 0, "H": 0, "P": 0, "B": 0
         },
         "location" : "W"
+    },
+    {
+        "username": "Harry",
+        "email": "harry@email.com",
+        "password": "harrypassword",
+        "picture": "profile_images/user.jpg",
+        "score": {
+            "L": 100, "T": 100, "H": 100, "P": 100, "B": 100
+        },
+        "location" : "W"
+    },
+    {
+        "username": "George",
+        "email": "george@email.com",
+        "password": "georgepassword",
+        "picture": "profile_images/user.jpg",
+        "score": {
+            "L": 200, "T": 200, "H": 200, "P": 200, "B": 200
+        },
+        "location" : "W"
+    },
+    {
+        "username": "Judy",
+        "email": "judy@email.com",
+        "password": "judypassword",
+        "picture": "profile_images/user.jpg",
+        "score": {
+            "L": 0, "T": 0, "H": 0, "P": 0, "B": 0
+        },
+        "location" : "W"
+    },
+    {
+        "username": "Chris",
+        "email": "chris@email.com",
+        "password": "chrispassword",
+        "picture": "profile_images/user.jpg",
+        "score": {
+            "L": 300, "T": 300, "H": 300, "P": 300, "B": 300
+        },
+        "location" : "W"
+    },
+    {
+        "username": "Outsider",
+        "email": "outsider@email.com",
+        "password": "outsiderpassword",
+        "picture": "profile_images/user.jpg",
+        "score": {
+            "L": 300, "T": 300, "H": 300, "P": 300, "B": 400
+        },
+        "location" : "N"
     }
 ]
 
@@ -204,11 +273,12 @@ def add_question(answers, question, image, category, learn_text, id):
     )[0]
     return q
 
-def add_profile(user, picture, score, location):
+def add_profile(user, picture, score, total_score, location):
     p = UserProfile.objects.get_or_create(
         user=user,
         picture=picture,
         score=score,
+        total_score=total_score,
         location=location
     )[0]
     return p
@@ -216,12 +286,18 @@ def add_profile(user, picture, score, location):
 def populate():
     Question.objects.all().delete()
     UserProfile.objects.all().delete()
-    admin = User.objects.get(username="admin")
+    User.objects.all().delete()
     for profile in profiles:
+        user = User.objects.create_user(
+            profile["username"],
+            profile["email"],
+            profile["password"]
+        )
         add_profile(
-            admin,
+            user,
             profile["picture"],
             profile["score"],
+            total_score(profile["score"]),
             profile["location"]
         )
     print "Questions: ", len(questions)

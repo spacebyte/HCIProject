@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, render_to_response
 from django.http import HttpResponse
 from models import UserProfile, Question
 from forms import UserProfileForm
@@ -12,6 +12,7 @@ from django.contrib.auth.models import User
 import random
 import json
 from django.core.serializers.json import DjangoJSONEncoder
+from django.template import RequestContext
 
 class MyEncoder(json.JSONEncoder):
     def default(self, o):
@@ -21,6 +22,7 @@ def index(request):
     context = {"string": "hello world"}
     response = render(request,'index.html', context)
     return response
+
 
 def quiz(request):
     context = {}
@@ -66,6 +68,7 @@ def register_profile(request):
     		profile.save()
     	return render(request, 'index.html', context)
 
+
 @login_required
 def profile(request):
     context = {}
@@ -76,7 +79,49 @@ def profile(request):
     except:
         profile = None
         print "NO PROFILE"
-
+    profiles = UserProfile.objects.all().order_by('-total_score')
+    local_profiles = profiles.filter(location=profile.location)
+    context['all_profiles'] = profiles
+    context['local_profiles'] = local_profiles
     context['userprofile'] = profile
-
+    context["userprofile_json"] = json.dumps(profile, cls=MyEncoder)
     return render(request, 'profile.html', context)
+
+
+def total_score(score):
+    total = 0
+    for header in score:
+        total += score[header]
+    return total
+
+
+def send_score(request):
+    user = User.objects.get(id=request.user.id)
+    profile = UserProfile.objects.get(user=user)
+    if request.method == 'POST':
+        print request.POST
+        L_score = request.POST.get('score[L]')
+        H_score = request.POST.get('score[H]')
+        P_score = request.POST.get('score[P]')
+        T_score = request.POST.get('score[T]')
+        B_score = request.POST.get('score[B]')
+        current_score = profile.score
+        current_score['L'] += int(L_score)
+        current_score['H'] += int(H_score)
+        current_score['P'] += int(P_score)
+        current_score['T'] += int(T_score)
+        current_score['B'] += int(B_score)
+        profile.score = current_score
+        profile.total_score = total_score(current_score)
+        profile.save()
+        print profile.score
+        response_data = {"post": "success"}
+        return HttpResponse(
+            json.dumps(response_data),
+            content_type="application/json"
+        )
+    else:
+        return HttpResponse(
+            json.dumps({"error": "failed"}),
+            content_type="application/json"
+        )

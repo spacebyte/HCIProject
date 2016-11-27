@@ -9,9 +9,14 @@
 <script>$(function () {
 
     $(document).ready(function () {
+        var userprofile = {{ userprofile_json|safe}};
+        console.log(userprofile.score.T);
+        console.log(userprofile.score.P);
+        console.log(userprofile.score.H);
+        console.log(userprofile.score.L);
 
         // Build the chart
-        Highcharts.chart('container', {
+        Highcharts.chart('chart_container', {
             chart: {
                 plotBackgroundColor: null,
                 plotBorderWidth: null,
@@ -39,50 +44,106 @@
                 colorByPoint: false,
                 data: [{
                     name: 'Trivia',
-                    y: 36.33,
+                    y: userprofile.score.T,
                     color:'#884dff'
                 }, {
                     name: 'Location',
-                    y: 24.03,
-                    sliced: true,
-                    selected: true,
+                    y: userprofile.score.L,
                     color:'#008ae6'
                 }, {
                     name: 'People',
-                    y: 10.38,
+                    y: userprofile.score.P,
                     color:'#ff4dc4'
                 }, {
                     name: 'History',
-                    y: 24.77,
+                    y: userprofile.score.H,
                     color:'#33ffad'
                 }]
             }]
         });
     });
 });</script>
-<div class="hero-unit">
-   	   <h1 style = "text-align:center;"> Profile </h1> <br/>
-		<div class= "container col-md-4 col-md-offset-1">
-	   <h2>{{ user.username }}</h2>
-			{% if userprofile %}
-			
-       {% if userprofile.picture %}
-	   <img src="{{ userprofile.picture.url}}"  />
-	   {% endif %}
-			{% endif %}
-       <p>Email: {{ user.email }}</p>
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+            <h2>{{ user.username }}</h2>
+    		{% if userprofile %}
+                {% if userprofile.picture %}
+                    <img src="{{ userprofile.picture.url}}" style="width: 100%;" />
+                    <p>{{ userprofile.location }}</p>
+                    <button><a href="{% url 'auth_password_change' %}">Password change</a></button>
+                {% endif %}
+    		{% endif %}
+        </div>
+        <div class="col-md-4">
+            <h3>Global Scoreboard</h3>
+            	<table class="table table-striped">
+    		<tr>
+    		    <th>#</th>
+                <th></th>
+    		    <th>Username</th>
+    		    <th>Score</th>
+    		  </tr>
+              {% for profile in all_profiles %}
 
-       {% if userprofile %}
-	   <p>Website: <a href="{{ userprofile.website }}">{{userprofile.website}}</a></p>
-           <br/>
-	   {% endif %}
-			<button><a href="{% url 'auth_password_change' %}">Password change</a></button>
-			<hr>
+    		  <tr>
+    		    <td>
+                    {% if profile.user == user %}<b>{% endif %}
+                        {{ forloop.counter }}
+                    {% if profile.user == user %}</b>{% endif %}
+                </td>
+                <td>
+                    <img src="{{ profile.picture.url }}" style="width: 32px; height: 32px; margin: -6px 0 -6px 0"/>
+                </td>
+    		    <td>
+                    {% if profile.user == user %}<b>{% endif %}
+                        {{ profile.user.username }}
+                    {% if profile.user == user %}</b>{% endif %}
+                </td>
+    		    <td>
+                    {% if profile.user == user %}<b>{% endif %}
+                        {{ profile.total_score }}
+                    {% if profile.user == user %}</b>{% endif %}
+                </td>
+    		  </tr>
 
-	</div>
-
-
- <div class = "container col-md-4 col-md-offset-3">
-        	<div id="container" style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto"></div></div>
+              {% endfor %}
+    		</table>
+            <h3>Local Scoreboard</h3>
+            	<table class="table table-striped">
+    		<tr>
+    		    <th>#</th>
+                <th></th>
+    		    <th>Username</th>
+    		    <th>Score</th>
+    		  </tr>
+              {% for profile in local_profiles %}
+              <tr>
+    		    <td>
+                    {% if profile.user == user %}<b>{% endif %}
+                        {{ forloop.counter }}
+                    {% if profile.user == user %}</b>{% endif %}
+                </td>
+                <td>
+                    <img src="{{ profile.picture.url }}" style="width: 32px; height: 32px; margin: -6px 0 -6px 0"/>
+                </td>
+    		    <td>
+                    {% if profile.user == user %}<b>{% endif %}
+                        {{ profile.user.username }}
+                    {% if profile.user == user %}</b>{% endif %}
+                </td>
+    		    <td>
+                    {% if profile.user == user %}<b>{% endif %}
+                        {{ profile.total_score }}
+                    {% if profile.user == user %}</b>{% endif %}
+                </td>
+    		  </tr>
+              {% endfor %}
+    		</table>
+		</div>
+        <div class = "col-md-4">
+        	<div id="chart_container" style="min-width: 310px; height: 400px; width: 100%; margin: 0 auto"></div>
+        </div>
+    </div>
 </div>
 {% endblock %}

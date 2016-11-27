@@ -84,6 +84,7 @@
     </div>
 </div>
 
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <script type="text/javascript">
     var questions = {{questions|safe}};
@@ -93,6 +94,17 @@
     var answered = false;
     var handled = false;
     var fired = false;
+    var stop_timer = false;
+
+    var score = {
+        "T": 0,
+        "L": 0,
+        "P": 0,
+        "H": 0,
+        "B": 0
+    }
+
+    var bonus = 0;
 
 
     $(document).ready(function(){
@@ -103,21 +115,23 @@
     });
 
     function myTimer(){
-        if (time > 0 && !answered){
-            time = time -1;
-            var margin = (100-time);
-            console.log(time);
-            $("#timer").css('height', String(time)+"%");
-            $("#invisidiv").css('height', String(margin)+"%");
-            if (time == 50){
-                generic_class("timer", "progress-bar-success", "progress-bar-warning")
-            }
-            if (time == 25){
-                generic_class("timer", "progress-bar-warning", "progress-bar-danger")
-            }
-        } else {
-            if (!handled){
-                time_up();
+        if (!stop_timer){
+            if (time > 0 && !answered){
+                time = time -1;
+                var margin = (100-time);
+                console.log(time);
+                $("#timer").css('height', String(time)+"%");
+                $("#invisidiv").css('height', String(margin)+"%");
+                if (time == 50){
+                    generic_class("timer", "progress-bar-success", "progress-bar-warning")
+                }
+                if (time == 25){
+                    generic_class("timer", "progress-bar-warning", "progress-bar-danger")
+                }
+            } else {
+                if (!handled){
+                    time_up();
+                }
             }
         }
     }
@@ -184,6 +198,9 @@
             $('#result_text').addClass("correct-text");
             string = "CORRECT"
             progress_class(q_id+1, "in-progress", "success-color");
+            score.B += Math.round(time/10);
+            var category = questions[q_id].category;
+            add_to_score(category);
         } else {
             $('#result_text').removeClass("incorrect-text");
             $('#result_text').removeClass("correct-text");
@@ -204,6 +221,20 @@
         $("#timer").css('height', String(time)+"%");
         $("#invisidiv").css('height', String(0)+"%");
     });
+
+    function add_to_score(category){
+        switch (category) {
+            case "T": score.T += 10
+            break;
+            case "L": score.L += 10
+            break;
+            case "H": score.H += 10
+            break;
+            case "P": score.P += 10
+            break;
+            default: score.B += 10
+        }
+    }
 
     function change(){
         if (!fired){
@@ -256,14 +287,30 @@
     }
 
     function end_quiz(){
+        stop_timing = true;
+        answered=true;
+        time=0;
         var string = "It's done!";
         $('#end_state').fadeIn()
         $("#end_text").text(string);
+        send_score()
     }
 
-
-
-
-
+    function send_score() {
+        $.ajax({
+            url : "send_score/",
+            type : "POST",
+            data : {
+                csrfmiddlewaretoken: "{{ csrf_token }}",   // < here
+                score: score
+            },
+            success : function() {
+                console.log("success");
+            },
+            error : function() {
+                console.log("failure");
+            }
+        });
+    };
 </script>
 {% endblock %}

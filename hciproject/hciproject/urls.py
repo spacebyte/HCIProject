@@ -30,5 +30,6 @@ urlpatterns = [
     url(r'^add_profile/$', views.register_profile, name='profile_registration'),
     url(r'^profile/$', views.profile, name='profile'),
     url(r'^accounts/register/$', RegistrationBypass.as_view(), name='registration_register'),
+    url(r'^quiz/send_score/$', views.send_score, name='send_score'),
     url(r'^accounts/', include('registration.backends.simple.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

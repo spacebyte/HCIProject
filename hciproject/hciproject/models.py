@@ -7,6 +7,7 @@ class UserProfile(models.Model):
     user = models.OneToOneField(User)
     picture = models.ImageField(upload_to='profile_images', blank=True)
     score = JSONField()
+    total_score = models.IntegerField(default=0)
     LOCATIONS = (
         ('C', 'City Centre'),
         ('W', 'West'),
