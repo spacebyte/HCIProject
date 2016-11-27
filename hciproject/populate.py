@@ -350,6 +350,36 @@ questions = [
         "category": "L",
         "learn_text": "The Kibble Palace is the most notable glasshouse in the botanic gardens. It is a 19th century wrought-iron framed structure."
     },
+    {
+        "answers": {
+            "correct": "Forth & Clyde Canal",
+            "incorrect": ["Forth & Kelvin Canal", "Clyde Canal", "Forth Canal"],
+        },
+        "question": "What is the name of the canal that links Glasgow and Grangemouth?",
+        "image": "question_images/027.jpg",
+        "category": "T",
+        "learn_text": "The Forth & Clyde Canal opened in 1790 and runs from the River Carron at Grangemouth to the River Clyde at Bowling."
+    },
+    {
+        "answers": {
+            "correct": "A bomb went off",
+            "incorrect": ["The monarch visited", "It was moved", "A new plant was discovered"],
+        },
+        "question": "What happened at the Kibble Palace in 1914?",
+        "image": "question_images/026.jpg",
+        "category": "H",
+        "learn_text": "The bomb caused damage to 27 panes of glass and numerous plants."
+    },
+    {
+        "answers": {
+            "correct": "Robbie Coltrane",
+            "incorrect": ["Stanley Baxter", "Dayton Callie", "Tommy Flanagan"],
+        },
+        "question": "Name this famous Glasweigan actor",
+        "image": "question_images/028.jpg",
+        "category": "P",
+        "learn_text": "Robbie Coltrane is best known for his roles as Rubeus Hagrid in Harry Potter and Valentin Dmitrovich Zukovsky in GoldenEye."
+    },
 ]
 
 def add_question(answers, question, image, category, learn_text, id):
