@@ -7,29 +7,76 @@
 
 
 
-<div class="container main-quiz-container">
+<div class="container main-quiz-container" id="main">
 
     <!-- FADE MODAL -->
     <div class="fadeMe" id="fader">
         <div class="container">
-
             <div class="fade-area">
                 <div class="jumbotron" style="background-color: #333">
-                <p id="result_text" class="result-text"></p>
-                <p id="learn_text" class="learn-text"></p>
-                <button type="button" class="btn-lg btn-secondary" id="next">
-                    Next Question <span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span>
-                </button>
-            </div>
+                    <p id="result_text" class="result-text"></p>
+                    <p id="learn_text" class="learn-text"></p>
+                    <button type="button" class="btn-lg btn-secondary" id="next">
+                        Next Question <span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span>
+                    </button>
+                </div>
             </div>
         </div>
     </div>
 
+    <!--
     <div class="fadeMe" id="end_state">
         <div class="container">
-            <p id="end_text"></p>
-                <a href="{% url 'index' %}"><button type="button" class="btn">Home</button></a>
-            </button>
+            <div class="fade-area">
+                <div class="jumbotron" style="background-color: #333">
+                    <p id="end_text" class="result-text"></p>
+                    <div class="row">
+                        <h2 id="answers_correct" class="white-text"></h2>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <h3 class="white-text">LOCATIONS</h3>
+                            <p class="result-text" id="L_score"></p>
+                        </div>
+                        <div class="col-md-3">
+                            <h3 class="white-text">PEOPLE</h3>
+                            <p class="result-text" id="P_score"></p>
+                        </div>
+                        <div class="col-md-3">
+                            <h3 class="white-text">HISTORY</h3>
+                            <p class="result-text" id="H_score"></p>
+                        </div>
+                        <div class="col-md-3">
+                            <h3 class="white-text">TRIVIA</h3>
+                            <p class="result-text" id="T_score"></p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <h3 id="B_score" class="white-text"></h3>
+                    </div>
+                    <a href="{% url 'index' %}"><button type="button" class="btn-lg btn-secondary">Home</button></a><a href="{% url 'profile' %}"><button type="button" class="btn-lg btn-secondary">Profile</button></a>
+                </div>
+            </div>
+        </div>
+    </div>-->
+    <div class="fadeMe" id="end_state">
+        <div class="container">
+            <div class="fade-area">
+                <div class="jumbotron" style="background-color: #333">
+                    <p id="end_text" class="result-text"></p>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div id="chart-container"></div>
+                        </div>
+                        <div class="col-md-6">
+                            <h2 id="answers_correct" class="white-text"></h2>
+                            <h3 id="B_score" class="white-text"></h3>
+                        </div>
+                    </div>
+                    <a href="{% url 'index' %}"><button type="button" class="btn-lg btn-secondary">Home</button></a>
+                    <a href="{% url 'profile' %}"><button type="button" class="btn-lg btn-secondary">Profile</button></a>
+                </div>
+            </div>
         </div>
     </div>
     <!-- END FADE MODAL -->
@@ -87,11 +134,13 @@
     </div>
 </div>
 
-
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <script type="text/javascript">
     var questions = {{questions|safe}};
     var q_id = 0;
+    var answers_correct = 0;
 
     var time = 100;
     var answered = false;
@@ -193,13 +242,12 @@
     }
 
     $(".answer-btn").click(function() {
-        console.log("DEFINITE CLICK");
         play_click();
         answered = true;
         handled = true;
         var string = "";
         if ($(this).val() == "correct"){
-            console.log("-- CORRECT");
+            ++answers_correct;
             play_correct();
             $(this).removeClass("btn-primary");
             $(this).addClass("btn-success");
@@ -212,7 +260,6 @@
             var category = questions[q_id].category;
             add_to_score(category);
         } else {
-            console.log("-- INCORRECT");
             play_incorrect();
             $('#result_text').removeClass("incorrect-text");
             $('#result_text').removeClass("correct-text");
@@ -309,7 +356,14 @@
         quiz_completed = true;
         answered=true;
         time=0;
-        var string = "It's done!";
+        $("#answers_correct").html("YOU GOT " + answers_correct + " OUT OF 10 QUESTIONS CORRECT");
+        init_chart();
+        $("#L_score").html(score.L);
+        $("#H_score").html(score.H);
+        $("#P_score").html(score.P);
+        $("#T_score").html(score.T);
+        $("#B_score").html("+"+score.B+" TIME BONUS");
+        var string = "QUIZ COMPLETED";
         $('#end_state').fadeIn()
         $("#end_text").text(string);
         send_score()
@@ -354,5 +408,66 @@
     $(".answer-btn").mouseover( function(){
         play_click();
     });
+
+    function init_chart() {
+    Highcharts.chart('chart-container', {
+        chart: {
+            plotBackgroundColor: "#333",
+            plotBorderWidth: 0,
+            plotShadow: false,
+            margin: [0,0,0,0],
+            spacing: [1,1,1,1],
+            padding: [0,0,0,0],
+            height: 300,
+        },
+        title: {
+            text: 'Score<br>breakdown',
+            align: 'center',
+            verticalAlign: 'middle',
+            y: 40,
+            style: {color: "#FFF"}
+        },
+        tooltip: {
+            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+        },
+        exporting: { enabled: false },
+        credits: { enabled: false },
+        plotOptions: {
+            pie: {
+                borderWidth: 2,
+                borderColor: "#333",
+                dataLabels: {
+                    enabled: true,
+                    distance: -50,
+                    style: {
+                        color: 'white'
+                    }
+                },
+                startAngle: -90,
+                endAngle: 90,
+                center: ['50%', '75%'],
+                size: "100%",
+            }
+        },
+        series: [{
+            type: 'pie',
+            name: 'Score',
+            innerSize: '50%',
+            data: [
+                ['Location', score.L],
+                ['People', score.P],
+                ['History', score.H],
+                ['Trivia', score.T],
+                {
+                    name: 'Proprietary or Undetectable',
+                    y: 0.2,
+                    dataLabels: {
+                        enabled: false
+                    }
+                }
+            ]
+        }]
+    });
+}
 </script>
 {% endblock %}

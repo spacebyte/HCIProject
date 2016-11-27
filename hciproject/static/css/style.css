@@ -16,7 +16,7 @@ div.fade-area{
 }
 
 p.result-text{
-    background: linear-gradient(to right, rgba(255,0,0,0), rgba(255,0,0,1), rgba(255,0,0,0));
+    background: linear-gradient(to right, rgba(0,0,0,0), rgba(0,0,0,1), rgba(0,0,0,0));
     font-size: 60px;
     color: #fff;
 }
@@ -147,4 +147,8 @@ div.img-row{
 }
 .in-progress{
     background-color:#4989bd;
+}
+
+.white-text{
+    color: #FFFFFF;
 }
