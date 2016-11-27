@@ -12,12 +12,15 @@
     <!-- FADE MODAL -->
     <div class="fadeMe" id="fader">
         <div class="container">
+
             <div class="fade-area">
+                <div class="jumbotron" style="background-color: #333">
                 <p id="result_text" class="result-text"></p>
                 <p id="learn_text" class="learn-text"></p>
                 <button type="button" class="btn-lg btn-secondary" id="next">
                     Next Question <span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span>
                 </button>
+            </div>
             </div>
         </div>
     </div>
@@ -95,6 +98,8 @@
     var handled = false;
     var fired = false;
     var stop_timer = false;
+    var timer_running = false;
+    var quiz_completed = false;
 
     var score = {
         "T": 0,
@@ -112,14 +117,15 @@
         $("#fader").hide();
         load_question(q_id);
         var myVar = setInterval(myTimer, 100);
+
     });
 
     function myTimer(){
         if (!stop_timer){
             if (time > 0 && !answered){
+                timer_running = true;
                 time = time -1;
                 var margin = (100-time);
-                console.log(time);
                 $("#timer").css('height', String(time)+"%");
                 $("#invisidiv").css('height', String(margin)+"%");
                 if (time == 50){
@@ -129,7 +135,8 @@
                     generic_class("timer", "progress-bar-warning", "progress-bar-danger")
                 }
             } else {
-                if (!handled){
+                if (!handled && !quiz_completed){
+                    timer_running = false
                     time_up();
                 }
             }
@@ -186,11 +193,14 @@
     }
 
     $(".answer-btn").click(function() {
+        console.log("DEFINITE CLICK");
+        play_click();
         answered = true;
         handled = true;
         var string = "";
-        console.log($(this).val());
         if ($(this).val() == "correct"){
+            console.log("-- CORRECT");
+            play_correct();
             $(this).removeClass("btn-primary");
             $(this).addClass("btn-success");
             $('#result_text').removeClass("incorrect-text");
@@ -202,6 +212,8 @@
             var category = questions[q_id].category;
             add_to_score(category);
         } else {
+            console.log("-- INCORRECT");
+            play_incorrect();
             $('#result_text').removeClass("incorrect-text");
             $('#result_text').removeClass("correct-text");
             $('#result_text').addClass("incorrect-text");
@@ -249,7 +261,9 @@
         }
     }
     function time_up(){
+        play_incorrect();
         answered = true;
+        handled = true;
         change();
         fired=true;
         time = 100;
@@ -277,6 +291,11 @@
     }
 
     function next_question(){
+        handled = false;
+        incorrect.pause();
+        incorrect.currentTime = 0;
+        correct.pause();
+        correct.currentTime = 0;
         ++q_id;
         if (q_id < questions.length){
             $("#progress_background").css('width', String((q_id+1)*10)+"%");
@@ -287,7 +306,7 @@
     }
 
     function end_quiz(){
-        stop_timing = true;
+        quiz_completed = true;
         answered=true;
         time=0;
         var string = "It's done!";
@@ -312,5 +331,28 @@
             }
         });
     };
+
+
+    var click = new Audio("{% static 'audio/click.mp3' %}");
+
+    var correct = new Audio("{% static 'audio/correct.mp3' %}");
+
+    var incorrect = new Audio("{% static 'audio/incorrect.mp3' %}");
+
+    function play_click () {
+        click.play();
+    }
+
+    function play_correct () {
+        correct.play();
+    }
+
+    function play_incorrect () {
+        incorrect.play();
+    }
+
+    $(".answer-btn").mouseover( function(){
+        play_click();
+    });
 </script>
 {% endblock %}

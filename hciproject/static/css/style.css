@@ -96,6 +96,10 @@ div.img-row{
 }
 
 
+.btn:focus {
+  outline: none;
+}
+
 
 
 
