@@ -42,12 +42,10 @@
         $('<li><a href="#" class="next_link">»</a></li>').appendTo(pager);
     }
     
-    pager.find('.page_link:first').addClass('active');
     pager.find('.prev_link').hide();
     if (numPages<=1) {
         pager.find('.next_link').hide();
     }
-  	pager.children().eq(1).addClass("active");
     
     children.hide();
     children.slice(0, perPage).show();
@@ -97,8 +95,6 @@
         }
         
         pager.data("curr",page);
-      	pager.children().removeClass("active");
-        pager.children().eq(page+1).addClass("active");
     
     }
 };
