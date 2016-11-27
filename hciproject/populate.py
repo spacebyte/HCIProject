@@ -260,6 +260,96 @@ questions = [
         "category": "T",
         "learn_text": "Glasgow University is situated in the city's West End and is the 4th oldest university in the English speaking world."
     },
+    {
+        "answers": {
+            "correct": "George Square",
+            "incorrect": ["Glasgow Green", "Cathedral Square", "Queen's Park"],
+        },
+        "question": "Which Glasgow location was used during filming of World War Z?",
+        "image": "question_images/018.jpg",
+        "category": "L",
+        "learn_text": "The movie producers loved the look of George Square and filmed some scenes there in 2011."
+    },
+    {
+        "answers": {
+            "correct": "Kelvingrove Museum",
+            "incorrect": ["Glasgow School of Art", "The Lighthouse", "Scotland Street School Museum"],
+        },
+        "question": "Which of these buildings was not designed by Charles Rennie Mackintosh?",
+        "image": "question_images/019.jpg",
+        "category": "P",
+        "learn_text": "Kelvingrove was designed by Sir John W. Simpson and E.J. Milner Allen and opened in 1901."
+    },
+    {
+        "answers": {
+            "correct": "1957",
+            "incorrect": ["1947", "1967", "1977"],
+        },
+        "question": "In which year did construction of the Clyde Tunnel begin?",
+        "image": "question_images/020.jpg",
+        "category": "H",
+        "learn_text": "Kelvingrove was designed by Sir John W. Simpson and E.J. Milner Allen and opened in 1901."
+    },
+    {
+        "answers": {
+            "correct": "Clockwork orange",
+            "incorrect": ["Orange circle", "Underground", "Metro"],
+        },
+        "question": "Which of these is a nickname for the Glasgow subway system?",
+        "image": "question_images/021.jpg",
+        "category": "T",
+        "learn_text": "Clockwork Orange is the nickname due to vibrant orange livery and the trains run clockwise, or anti-clockwise in a circle."
+    },
+    {
+        "answers": {
+            "correct": "Jim Watt",
+            "incorrect": ["Tancy Lee", "Walter McGowan", "Ken Buchanan"],
+        },
+        "question": "Name this Glasgow boxer",
+        "image": "question_images/022.jpg",
+        "category": "P",
+        "learn_text": "Pictured is Jim Watt, the Glasweigan boxer who became world champion in the lightweight division in 1979."
+    },
+    {
+        "answers": {
+            "correct": "Singer",
+            "incorrect": ["Brother", "Frister & Rossman", "Janome"],
+        },
+        "question": "Which of these is a famous sewing machine manufactured in Glasgow?",
+        "image": "question_images/023.jpeg",
+        "category": "T",
+        "learn_text": "In 1867 the Singer Corporation decided that UK demand was high enough to justify a local factory. Glasgow was chosen as the factory location."
+    },
+    {
+        "answers": {
+            "correct": "Renfrew Street",
+            "incorrect": ["Sauchiehall Street", "Bell Street", "Hope Street"],
+        },
+        "question": "On what Glasgow street would you find the Glasgow School of Art?",
+        "image": "question_images/024.jpg",
+        "category": "L",
+        "learn_text": "The address of the Glasgow School of Art is 167 Renfrew Street."
+    },
+    {
+        "answers": {
+            "correct": "12th",
+            "incorrect": ["11th", "13th", "14th"],
+        },
+        "question": "In which century was Glasgow Cathedral built?",
+        "image": "question_images/025.jpeg",
+        "category": "H",
+        "learn_text": "Kelvingrove was designed by Sir John W. Simpson and E.J. Milner Allen and opened in 1901."
+    },
+    {
+        "answers": {
+            "correct": "Glasgow Botanic Gardens",
+            "incorrect": ["Kelvingrove Park", "Glasgow Green", "Queen's Park"],
+        },
+        "question": "Where would you find the Kibble Palace?",
+        "image": "question_images/026.jpg",
+        "category": "L",
+        "learn_text": "The Kibble Palace is the most notable glasshouse in the botanic gardens. It is a 19th century wrought-iron framed structure."
+    },
 ]
 
 def add_question(answers, question, image, category, learn_text, id):
