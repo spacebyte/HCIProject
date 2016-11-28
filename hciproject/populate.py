@@ -128,7 +128,7 @@ questions = [
         "question": "Identify this Glaswegian actor",
         "image": "question_images/004.jpg",
         "category": "P",
-        "learn_text": "James McAvoy was born in Glasgow in 1979, and has gone on to acheive Hollywood fame."
+        "learn_text": "James McAvoy was born in Glasgow in 1979, and has gone on to achieve Hollywood fame."
     },
     {
         "answers": {
@@ -288,7 +288,7 @@ questions = [
         "question": "In which year did construction of the Clyde Tunnel begin?",
         "image": "question_images/020.jpg",
         "category": "H",
-        "learn_text": "Kelvingrove was designed by Sir John W. Simpson and E.J. Milner Allen and opened in 1901."
+        "learn_text": "The Clyde Tunnel is a crossing underneath the River Clyde which connects Whiteinch and Govan."
     },
     {
         "answers": {
@@ -338,7 +338,7 @@ questions = [
         "question": "In which century was Glasgow Cathedral built?",
         "image": "question_images/025.jpeg",
         "category": "H",
-        "learn_text": "Kelvingrove was designed by Sir John W. Simpson and E.J. Milner Allen and opened in 1901."
+        "learn_text": "The cathedral was built in the early 12th century and is a superb example of Scottish Gothic architecture."
     },
     {
         "answers": {
