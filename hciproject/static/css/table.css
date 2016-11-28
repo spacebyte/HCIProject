@@ -10,6 +10,12 @@
 	
 	
 }
+
+.btn-custom:hover {
+	background:#1059a2;
+	color:white;
+
+}
 hr {
 
     visibility: hidden;

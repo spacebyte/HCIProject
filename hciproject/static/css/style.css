@@ -9,6 +9,10 @@ div.fadeMe {
   position:   fixed;
 }
 
+.light{
+	color: white !important;
+    font-weight: bold;}
+
 .navbar{
   color:white;
   background-color: #09335d;
@@ -105,19 +109,8 @@ div.img-row{
   outline: none;
 }
 
-.answer-btn-style{
+.answer-btn{
     background-color: #09335d;
-    color: #fff;
-}
-
-.answer-btn-style:hover{
-    background-color: #4989bd;
-    color: #fff;
-}
-
-#next:hover{
-	background-color: white;
-	color: black;
 }
 
 
@@ -131,6 +124,14 @@ div.img-row{
 
 }
 
+.btn-lg:hover{
+	background-color: white;
+	color: black; 
+}
+#next:hover{
+	background-color: white;
+	color: black; 
+}
 
 .primary-color{
 	background-color:#4989bd;
@@ -166,5 +167,3 @@ div.img-row{
 .center-align{
     text-align: center;
 }
-
-sub { vertical-align: middle; font-size: 20px; }
