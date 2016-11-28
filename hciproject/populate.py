@@ -380,6 +380,46 @@ questions = [
         "category": "P",
         "learn_text": "Robbie Coltrane is best known for his roles as Rubeus Hagrid in Harry Potter and Valentin Dmitrovich Zukovsky in GoldenEye."
     },
+    {
+        "answers": {
+            "correct": "Saint Mungo",
+            "incorrect": ["Saint Andrew", "Saint Blane", "Saint Regulus"],
+        },
+        "question": "Which saint is thought to be the founder of Glasgow?",
+        "image": "question_images/010.jpg",
+        "category": "H",
+        "learn_text": "Glasgow was founded by the Christian missionary Saint Mungo in the 6th century. He established a church where the present Glasgow Cathedral stands."
+    },
+    {
+        "answers": {
+            "correct": "598,830",
+            "incorrect": ["548,830", "648,830", "498,830"],
+        },
+        "question": "What is the current estimate of the population of Glasgow?",
+        "image": "question_images/029.jpg",
+        "category": "T",
+        "learn_text": "The estimated population of Glasgow in 2011 was 598,830, making Glasgow the 3rd largest city in the UK after London and Birmingham."
+    },
+    {
+        "answers": {
+            "correct": "Scottish Football Museum",
+            "incorrect": ["Kelvingrove Museum", "People's Palace", "Huntarian Museum"],
+        },
+        "question": "Which of these Glasgow museums has the oldest football in the world?",
+        "image": "question_images/030.jpg",
+        "category": "L",
+        "learn_text": "The football was found in the Queen's Chamber at Stirling Castle during renovation work and is thought to be 1 of 4 ordered for King James IV in the 1490s."
+    },
+    {
+        "answers": {
+            "correct": "Christopher Brookmyre",
+            "incorrect": ["James Kelman", "Alasdair Gray", "Archie Hind"],
+        },
+        "question": "Name this Glasweigan author",
+        "image": "question_images/031.jpg",
+        "category": "P",
+        "learn_text": "Christopher Brookmyre is a novelist whose novels mix comedy, politics, social comment and action with a strong narrative."
+    },
 ]
 
 def add_question(answers, question, image, category, learn_text, id):
