@@ -420,6 +420,46 @@ questions = [
         "category": "P",
         "learn_text": "Christopher Brookmyre is a novelist whose novels mix comedy, politics, social comment and action with a strong narrative."
     },
+    {
+        "answers": {
+            "correct": "Martin Creed",
+            "incorrect": ["Douglas Gordon", "Jim Lambie", "Nathan Coley"],
+        },
+        "question": "Name this Glasweigan artist",
+        "image": "question_images/032.jpg",
+        "category": "P",
+        "learn_text": "Martin Creed won the Turner Prize in 2001 for Work No. 227: The lights going on and off."
+    },
+    {
+        "answers": {
+            "correct": "Glasgow Green",
+            "incorrect": ["Kelvingrove Park", "Botanic Gardens", "Queen's Park"],
+        },
+        "question": "Which of these parks is the oldest in the city",
+        "image": "question_images/033.jpg",
+        "category": "H",
+        "learn_text": "Glasgow Green was established in the 15th century, making it the oldest park in the city."
+    },
+    {
+        "answers": {
+            "correct": "Tennents",
+            "incorrect": ["Innis & Gunn", "Orkney", "Belhaven"],
+        },
+        "question": "Which Scottish beer companies has a brewery on Duke Street?",
+        "image": "question_images/034.jpg",
+        "category": "T",
+        "learn_text": "Tennents lager is produced in the Wellpark Brewery on Duke Street which was established in 1740."
+    },
+    {
+        "answers": {
+            "correct": "Sauchiehall Street",
+            "incorrect": ["Argyle Street", "Byres Road", "Jamaica Street"],
+        },
+        "question": "On which Glasgow street would you find the Royal Concert Hall",
+        "image": "question_images/035.jpg",
+        "category": "L",
+        "learn_text": "The Royal Concert Hall opened in 1990. It's address is Buchanan Galleries, 2 Sauchiehall Street."
+    },
 ]
 
 def add_question(answers, question, image, category, learn_text, id):
