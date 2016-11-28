@@ -6,7 +6,7 @@ from django_mysql.models import JSONField
 class UserProfile(models.Model):
     user = models.OneToOneField(User)
     picture = models.ImageField(upload_to='profile_images', blank=True)
-    score = JSONField()
+    score = JSONField(default='{"T": 0, "L": 0, "P": 0, "H": 0, "B": 0}')
     total_score = models.IntegerField(default=0)
     LOCATIONS = (
         ('C', 'City Centre'),
