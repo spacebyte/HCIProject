@@ -19,7 +19,8 @@ class MyEncoder(json.JSONEncoder):
         return o.__dict__
 
 def index(request):
-    context = {"string": "hello world"}
+    profiles = UserProfile.objects.all().order_by('-total_score')
+    context = {"profiles": profiles}
     response = render(request,'index.html', context)
     return response
 

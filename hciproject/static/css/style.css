@@ -13,6 +13,7 @@ div.fadeMe {
   color:white;
   background-color: #09335d;
 }
+
 div.fade-area{
     margin: 40px 40px 40px 40px;
     text-align: center;
@@ -104,20 +105,9 @@ div.img-row{
   outline: none;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+.answer-btn{
+    background-color: #09335d;
+}
 
 
 .question-progress{
@@ -155,4 +145,13 @@ div.img-row{
 
 .white-text{
     color: #FFFFFF;
+}
+
+.button-link{
+    text-decoration: none;
+    padding: 0, 10px, 0, 10px;
+}
+
+.center-align{
+    text-align: center;
 }

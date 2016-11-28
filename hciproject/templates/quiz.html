@@ -24,7 +24,7 @@
         </div>
     </div>
 
-    <!--
+
     <div class="fadeMe" id="end_state">
         <div class="container">
             <div class="fade-area">
@@ -54,11 +54,13 @@
                     <div class="row">
                         <h3 id="B_score" class="white-text"></h3>
                     </div>
-                    <a href="{% url 'index' %}"><button type="button" class="btn-lg btn-secondary">Home</button></a><a href="{% url 'profile' %}"><button type="button" class="btn-lg btn-secondary">Profile</button></a>
+                    <a href="{% url 'index' %}" class="button-link"><button type="button" class="btn-lg btn-secondary">Home</button></a>
+                    <a href="{% url 'profile' %}" class="button-link"><button type="button" class="btn-lg btn-secondary">Profile</button></a>
                 </div>
             </div>
         </div>
-    </div>-->
+    </div>
+    <!--
     <div class="fadeMe" id="end_state">
         <div class="container">
             <div class="fade-area">
@@ -78,7 +80,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div>-->
     <!-- END FADE MODAL -->
 
     <div class="row">
@@ -357,7 +359,7 @@
         answered=true;
         time=0;
         $("#answers_correct").html("YOU GOT " + answers_correct + " OUT OF 10 QUESTIONS CORRECT");
-        init_chart();
+        //init_chart();
         $("#L_score").html(score.L);
         $("#H_score").html(score.H);
         $("#P_score").html(score.P);
