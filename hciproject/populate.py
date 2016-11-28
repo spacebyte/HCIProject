@@ -460,6 +460,46 @@ questions = [
         "category": "L",
         "learn_text": "The Royal Concert Hall opened in 1990. It's address is Buchanan Galleries, 2 Sauchiehall Street."
     },
+    {
+        "answers": {
+            "correct": "Sauchiehall Street",
+            "incorrect": ["Argyle Street", "Byres Road", "Jamaica Street"],
+        },
+        "question": "On which Glasgow street would you find the Royal Concert Hall",
+        "image": "question_images/035.jpg",
+        "category": "L",
+        "learn_text": "The Royal Concert Hall opened in 1990. It's address is Buchanan Galleries, 2 Sauchiehall Street."
+    },
+    {
+        "answers": {
+            "correct": "Glasgow City Chambers",
+            "incorrect": ["St. Vincent Street Church", "Holmwood House", "Walmer Cresent"],
+        },
+        "question": "Which one of these buildings wasn't designed by Alexander Thomson, a Glasweigan architect",
+        "image": "question_images/036.jpg",
+        "category": "P",
+        "learn_text": "Glasgow City Chambers was designed by William Young and housed Glasgow Town Council from 1888 to 1895."
+    },
+    {
+        "answers": {
+            "correct": "Billy Connolly",
+            "incorrect": ["Kevin Bridges", "Frankie Boyle", "Gregor Fisher"],
+        },
+        "question": "Which Glasweigan comedian is known as 'The Big Yin'?",
+        "image": "question_images/029.jpg",
+        "category": "T",
+        "learn_text": "Billy Connolly was born in Anderston in 1942. He worked as a welder before becoming a comedian"
+    },
+    {
+        "answers": {
+            "correct": "1941",
+            "incorrect": ["1939", "1943", "1945"],
+        },
+        "question": "In which year did the Clydebank Blitz take place?",
+        "image": "question_images/037.jpg",
+        "category": "H",
+        "learn_text": "As a result of the raids on 13th and 14th March 1941, the town was largely destroyed and suffered the worst destruction and civilian loss of life in all of Scotland. 528 people died and many more were injured."
+    },
 ]
 
 def add_question(answers, question, image, category, learn_text, id):
