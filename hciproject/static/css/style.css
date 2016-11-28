@@ -121,6 +121,11 @@ div.img-row{
 }
 
 
+#next:hover{
+	background-color: white;
+	color: black; 
+}
+
 .primary-color{
 	background-color:#4989bd;
 }
