@@ -109,6 +109,19 @@ div.img-row {
     outline: none;
 }
 
+.answer-btn {
+    border-radius:30px;
+    width : 100%;
+    margin: 10px;
+    height: 84px;
+
+}
+
+.answer-btn-text {
+    font-size: 30px;
+    margin-bottom: 0;
+}
+
 .answer-btn-style {
     background-color: #09335d;
     color: #fff;

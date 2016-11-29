@@ -116,19 +116,19 @@
             </div>
             <div class ="row">
                 <div class = "col-md-6" style = "text-align:center">
-                    <button type="button" class="btn answer-btn answer-btn-style" style = "border-radius:30px; width : 100% ; margin: 10px;" id="button_1">
-                        <h1 id="answer_1"></h1>
+                    <button type="button" class="btn answer-btn answer-btn-style" id="button_1">
+                        <p class="answer-btn-text" id="answer_1"></p>
                     </button>
-                    <button type="button" class="btn answer-btn answer-btn-style" style = "border-radius:30px; width : 100% ; margin: 10px;" id="button_2">
-                        <h1 id="answer_2"></h1>
+                    <button type="button" class="btn answer-btn answer-btn-style" id="button_2">
+                        <p class="answer-btn-text" id="answer_2"></p>
                     </button>
                 </div>
                 <div class = "col-md-6" style = "text-align:center;">
-                    <button type="button" class="btn answer-btn answer-btn-style" style = "border-radius:30px; width : 100% ; margin: 10px;" id="button_3">
-                        <h1 id="answer_3"></h1>
+                    <button type="button" class="btn answer-btn answer-btn-style" id="button_3">
+                        <p class="answer-btn-text" id="answer_3"></p>
                     </button>
-                    <button type="button" class="btn answer-btn answer-btn-style" style = "border-radius:30px; width : 100% ; margin: 10px;" id="button_4">
-                        <h1 id="answer_4"></h1>
+                    <button type="button" class="btn answer-btn answer-btn-style" id="button_4">
+                        <p class="answer-btn-text" id="answer_4"></p>
                     </button>
                 </div>
             </div>
@@ -178,6 +178,7 @@
 
 
     $(document).ready(function(){
+        $('#bonus_score').hide();
         $("#end_state").hide();
         $("#fader").hide();
         load_question(q_id);
@@ -259,6 +260,7 @@
     }
 
     $(".answer-btn").click(function() {
+
         play_click();
         answered = true;
         handled = true;
@@ -292,6 +294,7 @@
             progress_class(q_id+1, "in-progress", "danger-color");
         }
         var learn_text = questions[q_id].learn_text;
+        $("#next").prop("disabled", false);
         $('#result_text').text(string);
         $('#learn_text').text(learn_text);
         $('#fader').fadeIn();
@@ -354,6 +357,8 @@
     }
 
     $('#next').click(function(){
+        $('#next').prop('disabled', true);
+        console.log($('#next').prop("disabled"));
         $('#bonus_score').hide();
         $('#bonus_score').animate({'paddingTop': '50px'});
         $('#fader').fadeOut()
