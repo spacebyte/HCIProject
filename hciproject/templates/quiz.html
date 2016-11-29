@@ -31,7 +31,6 @@
         </div>
     </div>
 
-
     <div class="fadeMe" id="end_state">
         <div class="container">
             <div class="fade-area">
@@ -62,32 +61,15 @@
                         <h3 id="B_score" class="white-text"></h3>
                     </div>
                     <a href="{% url 'index' %}" class="button-link"><button type="button" class="btn-lg btn-secondary">Home</button></a>
-                    <a href="{% url 'profile' %}" class="button-link"><button type="button" class="btn-lg btn-secondary">Profile</button></a>
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'profile' %}" class="button-link"><button type="button" class="btn-lg btn-secondary">Profile</button></a>
+                    {% else %}
+                        <p class="white-text">If you'd like to track and save your scores, <a href="/accounts/register">Register</a> here</p>
+                    {% endif %}
                 </div>
             </div>
         </div>
     </div>
-    <!--
-    <div class="fadeMe" id="end_state">
-        <div class="container">
-            <div class="fade-area">
-                <div class="jumbotron" style="background-color: #333">
-                    <p id="end_text" class="result-text"></p>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div id="chart-container"></div>
-                        </div>
-                        <div class="col-md-6">
-                            <h2 id="answers_correct" class="white-text"></h2>
-                            <h3 id="B_score" class="white-text"></h3>
-                        </div>
-                    </div>
-                    <a href="{% url 'index' %}"><button type="button" class="btn-lg btn-secondary">Home</button></a>
-                    <a href="{% url 'profile' %}"><button type="button" class="btn-lg btn-secondary">Profile</button></a>
-                </div>
-            </div>
-        </div>
-    </div>-->
     <!-- END FADE MODAL -->
 
     <div class="row">
@@ -176,14 +158,12 @@
 
     var bonus = 0;
 
-
     $(document).ready(function(){
         $('#bonus_score').hide();
         $("#end_state").hide();
         $("#fader").hide();
         load_question(q_id);
         var myVar = setInterval(myTimer, 100);
-
     });
 
     function myTimer(){
@@ -343,6 +323,7 @@
         }
     }
     function time_up(){
+        $("#next").prop("disabled", false);
         play_incorrect();
         answered = true;
         handled = true;
@@ -373,7 +354,6 @@
         $(".btn").removeClass("btn-danger");
         $(".btn").removeClass("answer-btn-style");
         $(".btn").addClass("answer-btn-style");
-
     }
 
     function next_question(){
@@ -424,7 +404,6 @@
             }
         });
     };
-
 
     var click = new Audio("{% static 'audio/click.mp3' %}");
 

@@ -76,7 +76,7 @@ $(function () {
                 text: '% of Category Correct'
             },
             tooltip: {
-                pointFormat: '{series.name}: <b>{point.y}%</b>'
+                pointFormat: '{series.name}: <b>{point.y:,.1f}%</b>'
             },
             plotOptions: {
                 column: {
@@ -101,7 +101,7 @@ $(function () {
 				name: 'Trivia',
                 data: [T_per],
 				color:'#884dff'
-                  
+
                 }, {
                     name: 'Location',
                     data:[L_per ],
