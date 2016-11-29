@@ -1,0 +1,403 @@
+{% extends 'base.html' %}
+{% block title %}Quiz{% endblock %}
+{% block body_block %}
+{% load static %}
+{% load quiz_extras %}
+<link href="{% static 'css/style.css' %}" rel="stylesheet">
+
+
+
+<div class="container main-quiz-container" id="main">
+
+    <div class='fullscreenDiv'>
+        <div class="center" id="bonus_score">
+            <h1 class="bonus-num" id="bonus_num"></h1>
+            <h3 class="bonus-text">SECONDS</h3>
+        </div>
+    </div>​
+
+    <!-- FADE MODAL -->
+    <div class="fadeMe" id="fader">
+        <div class="container">
+            <div class="fade-area">
+                <div class="jumbotron" style="background-color: #333">
+                    <p id="result_text" class="result-text"></p>
+                    <p id="learn_text" class="learn-text"></p>
+                    <button type="button" class="btn-lg btn-secondary" id="next">
+                        Next Question <span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="fadeMe" id="end_state">
+        <div class="container">
+            <div class="fade-area">
+                <div class="jumbotron" style="background-color: #333">
+                    <p id="end_text" class="result-text"></p>
+                    <div class="row">
+                        <h2 id="answers_correct" class="white-text"></h2>
+                    </div>
+                    <div class="row">
+                        <h3 id="B_score" class="white-text"></h3>
+                    </div>
+                    <a href="{% url 'index' %}" class="button-link"><button type="button" class="btn-lg btn-secondary">Home</button></a>
+                    <a href="{% url 'quiz_eval' %}" class="button-link"><button type="button" class="btn-lg btn-secondary">Restart</button></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- END FADE MODAL -->
+
+    <div class="row">
+        <div class="col-md-1">
+        </div>
+        <div class="col-md-10">
+            <div class="row">
+                <div class="col-md-12">
+                	<div class="progress">
+                        {% for i in "xxxxxxxxxx" %}
+                            <div class="question-progress no-color" id="progress_{{ forloop.counter }}" style="left: {{ forloop.counter|multiply:9.5 }}%;"></div>
+                        {% endfor %}
+                  		<div class="progress-bar" id="progress_background" style="width: 10%;"></div>
+                	</div>
+                </div>
+            </div>
+            <div class="col-md-1">
+            </div>
+            <div class="row center-row img-row">
+                <div class="col-md-6 vcenter">
+                    <h1 style="text-align:center" id="question"></h1>
+                </div><!-- DO NOT REMOVE THIS COMMENT
+            --><div class = "col-md-6 vcenter">
+                    <img class="img-responsive question-img" id="image"/>
+                </div>
+            </div>
+            <div class ="row">
+                <div class = "col-md-6" style = "text-align:center">
+                    <button type="button" class="btn answer-btn answer-btn-style" id="button_1">
+                        <p class="answer-btn-text" id="answer_1"></p>
+                    </button>
+                    <button type="button" class="btn answer-btn answer-btn-style" id="button_2">
+                        <p class="answer-btn-text" id="answer_2"></p>
+                    </button>
+                </div>
+                <div class = "col-md-6" style = "text-align:center;">
+                    <button type="button" class="btn answer-btn answer-btn-style" id="button_3">
+                        <p class="answer-btn-text" id="answer_3"></p>
+                    </button>
+                    <button type="button" class="btn answer-btn answer-btn-style" id="button_4">
+                        <p class="answer-btn-text" id="answer_4"></p>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-1">
+            <div class="progress progress-bar-vertical">
+                <div id="invisidiv"></div>
+                <div id="timer" class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script type="text/javascript">
+
+
+    function populate_questions(){
+        var questions = []
+        for (var i = 0; i < 10; i++){
+            var num_one = r2d();
+            var num_two = r1d();
+            var op = add_or_sub();
+            var question = String(num_one) + op + String(num_two);
+            var correct_answer = 0
+            if (op == " - "){
+                correct_answer = num_one - num_two;
+            } else {
+                correct_answer = num_one + num_two;
+            }
+            var incorrects = []
+            while (incorrects.length < 3){
+            //for (var n = 0; n < 3; n++){
+                var incorrect = r2d();
+                console.log(incorrect);
+                if (incorrect != correct_answer && incorrects.indexOf(incorrect) == -1){
+                    incorrects.push(incorrect);
+                }
+            }
+            var question = {
+                answers: {
+                    correct: correct_answer,
+                    incorrect: incorrects,
+                },
+                question: question,
+                image: "question_images/033.jpg",
+                learn_text: "Click next to move to the next question."
+            };
+            questions.push(question);
+        }
+
+
+        return questions;
+    }
+
+    var questions = populate_questions();
+
+    function r2d(){
+        return Math.floor(Math.random() * (90 - 1 + 1)) +10;
+    }
+
+    function r1d(){
+        return Math.floor(Math.random() * (9));
+    }
+
+    function add_or_sub(){
+        var rand = Math.random();
+        if (rand <= 0.5){
+            return " - ";
+        } else {
+            return " + ";
+        }
+    }
+    var q_id = 0;
+    var answers_correct = 0;
+
+    var time = 100;
+    var answered = false;
+    var handled = false;
+    var fired = false;
+    var stop_timer = false;
+    var timer_running = false;
+    var quiz_completed = false;
+
+    var score = {
+        "B": 0
+    }
+
+    var bonus = 0;
+
+    $(document).ready(function(){
+        $('#bonus_score').hide();
+        $("#end_state").hide();
+        $("#fader").hide();
+        load_question(q_id);
+        var myVar = setInterval(myTimer, 100);
+    });
+
+    function myTimer(){
+        if (!stop_timer){
+            if (time > 0 && !answered){
+                timer_running = true;
+                time = time -1;
+                var margin = (100-time);
+                $("#timer").css('height', String(time)+"%");
+                $("#invisidiv").css('height', String(margin)+"%");
+                if (time == 50){
+                    generic_class("timer", "progress-bar-success", "progress-bar-warning")
+                }
+                if (time == 25){
+                    generic_class("timer", "progress-bar-warning", "progress-bar-danger")
+                }
+            } else {
+                if (!handled && !quiz_completed){
+                    timer_running = false
+                    time_up();
+                }
+            }
+        }
+    }
+
+    function progress_class(id, old_class, new_class){
+        $('#progress_'+String(id)).removeClass(old_class);
+        $('#progress_'+String(id)).addClass(new_class);
+    }
+
+    function generic_class(id, old_class, new_class){
+        $('#'+String(id)).removeClass(old_class);
+        $('#'+String(id)).addClass(new_class);
+    }
+
+    function load_question(id){
+        $('#timer').removeClass("progress-bar-warning");
+        $('#timer').removeClass("progress-bar-danger");
+        $('#timer').addClass("progress-bar-success");
+        reset_buttons();
+        var question = questions[id];
+        $("#question").html(question.question);
+        $("#image").attr("src", '/media/'+question.image);
+        load_buttons(question.answers);
+        progress_class(id+1, "no-color", "in-progress");
+    }
+
+    function load_buttons(answers){
+        var button_list = [1,2,3,4];
+        var correct_button = rand_button();
+        var index = button_list.indexOf(correct_button);
+        if (index > -1) {
+            button_list.splice(index, 1);
+        }
+        assign_button(correct_button, answers.correct, true);
+        for (var i = 0; i < button_list.length; i++){
+            assign_button(button_list[i], answers.incorrect[i]);
+        }
+    }
+
+    function assign_button(button_id, answer, is_correct=false){
+        $("#answer_"+String(button_id)).html(answer);
+        if (is_correct){
+            $("#button_"+String(button_id)).val("correct");
+        } else {
+            $("#button_"+String(button_id)).val("incorrect");
+        }
+
+    }
+
+    function rand_button() {
+        return Math.floor(Math.random() * (4 - 1 + 1)) + 1;
+    }
+
+    $(".answer-btn").click(function() {
+        play_click();
+        answered = true;
+        handled = true;
+        var string = "";
+        if ($(this).val() == "correct"){
+            ++answers_correct;
+            play_correct();
+            $(this).removeClass("answer-btn-style");
+            $(this).addClass("btn-success");
+            $('#result_text').removeClass("incorrect-text");
+            $('#result_text').removeClass("correct-text");
+            $('#result_text').addClass("correct-text");
+            string = "CORRECT"
+            $('#bonus_score').animate({'opacity': 'show', 'paddingTop': 0});
+            progress_class(q_id+1, "in-progress", "success-color");
+            score.B += 10-(time/10);
+            $('#bonus_num').text("+" + String(time/10));
+            $('#text').animate({'opacity': 'show', 'paddingTop': 0});
+        } else {
+            play_incorrect();
+            $('#result_text').removeClass("incorrect-text");
+            $('#result_text').removeClass("correct-text");
+            $('#result_text').addClass("incorrect-text");
+            $(this).removeClass("answer-btn-style");
+            $(this).addClass("btn-danger");
+            score.B += 10-(time/10);
+            $('.answer-btn').filter(function(){return this.value=='correct'}).removeClass("answer-btn-style");
+            $('.answer-btn').filter(function(){return this.value=='correct'}).addClass("btn-success");
+            string = "INCORRECT"
+            progress_class(q_id+1, "in-progress", "danger-color");
+        }
+        var learn_text = questions[q_id].learn_text;
+        $("#next").prop("disabled", false);
+        $('#result_text').text(string);
+        $('#learn_text').text(learn_text);
+        $('#fader').fadeIn();
+        time = 100;
+        answered = true;
+        $("#timer").css('height', String(time)+"%");
+        $("#invisidiv").css('height', String(0)+"%");
+    });
+
+    function change(){
+        if (!fired){
+            $('#result_text').removeClass("incorrect-text");
+            $('#result_text').removeClass("correct-text");
+            $('#result_text').addClass("incorrect-text");
+            var string = "OUT OF TIME";
+            score.B += 10;
+            var learn_text = questions[q_id].learn_text;
+            $('#result_text').text(string);
+            $('#learn_text').text(learn_text);
+            $('#fader').fadeIn();
+        }
+    }
+    function time_up(){
+        $("#next").prop("disabled", false);
+        play_incorrect();
+        answered = true;
+        handled = true;
+        change();
+        fired = true;
+        time = 100;
+        $("#timer").css('height', String(time)+"%");
+        $("#invisidiv").css('height', String(0)+"%");
+        progress_class(q_id+1, "in-progress", "danger-color");
+        $('.answer-btn').filter(function(){return this.value=='correct'}).removeClass("answer-btn-style");
+        $('.answer-btn').filter(function(){return this.value=='correct'}).addClass("btn-success");
+    }
+
+    $('#next').click(function(){
+        $('#next').prop('disabled', true);
+        console.log($('#next').prop("disabled"));
+        $('#bonus_score').hide();
+        $('#bonus_score').animate({'paddingTop': '50px'});
+        $('#fader').fadeOut()
+        next_question();
+        answered = false;
+        handled = false;
+        fired = false;
+    });
+
+    function reset_buttons(){
+        $(".btn").removeClass("btn-success");
+        $(".btn").removeClass("btn-danger");
+        $(".btn").removeClass("answer-btn-style");
+        $(".btn").addClass("answer-btn-style");
+    }
+
+    function next_question(){
+        handled = false;
+        incorrect.pause();
+        incorrect.currentTime = 0;
+        correct.pause();
+        correct.currentTime = 0;
+        ++q_id;
+        if (q_id < questions.length){
+            $("#progress_background").css('width', String((q_id+1)*10)+"%");
+            load_question(q_id);
+        } else {
+            end_quiz()
+        }
+    }
+
+    function end_quiz(){
+        quiz_completed = true;
+        answered = true;
+        time = 0;
+        $("#answers_correct").html(answers_correct + " OUT OF 10 QUESTIONS CORRECT");
+        $("#B_score").html("AVAERAGE TIME PER QUESTION: "+(score.B/10)+" SECONDS");
+        var string = "QUIZ COMPLETED";
+        $('#end_state').fadeIn()
+        $("#end_text").text(string);
+    }
+
+    var click = new Audio("{% static 'audio/click.mp3' %}");
+
+    var correct = new Audio("{% static 'audio/correct.mp3' %}");
+
+    var incorrect = new Audio("{% static 'audio/incorrect.mp3' %}");
+
+    function play_click () {
+        click.play();
+    }
+
+    function play_correct () {
+        correct.play();
+    }
+
+    function play_incorrect () {
+        incorrect.play();
+    }
+
+    $(".answer-btn").mouseover( function(){
+        play_click();
+    });
+</script>
+{% endblock %}

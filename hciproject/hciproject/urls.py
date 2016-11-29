@@ -27,6 +27,7 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', views.index, name='index'),
     url(r'^quiz/$', views.quiz, name='quiz'),
+    url(r'^quiz_eval/$', views.quiz_eval, name='quiz_eval'),
     url(r'^add_profile/$', views.register_profile, name='profile_registration'),
     url(r'^profile/$', views.profile, name='profile'),
     url(r'^accounts/register/$', RegistrationBypass.as_view(), name='registration_register'),

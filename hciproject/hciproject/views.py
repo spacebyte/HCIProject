@@ -50,6 +50,10 @@ def quiz(request):
     response = render(request, 'quiz.html', context)
     return response
 
+def quiz_eval(request):
+    response = render(request, 'quiz_eval.html')
+    return response
+
 
 @login_required
 def user_logout(request):
