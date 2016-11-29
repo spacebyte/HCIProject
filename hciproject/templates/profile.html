@@ -8,14 +8,14 @@
  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script>
 $(function () {
+
     $(document).ready(function () {
-        var userprofile = {{ userprofile_json|safe}};
+	    var userprofile = {{ userprofile_json|safe}};
 
         var L_per = (userprofile.score.L/10)/userprofile.number_of_questions.L*100;
         var H_per = (userprofile.score.H/10)/userprofile.number_of_questions.H*100;
         var P_per = (userprofile.score.P/10)/userprofile.number_of_questions.P*100;
         var T_per = (userprofile.score.T/10)/userprofile.number_of_questions.T*100;
-
         // Build the chart
         Highcharts.chart('chart_container', {
             chart: {
@@ -91,38 +91,33 @@ $(function () {
             },
             xAxis: {
                 categories: [
-                    'Trivia',
-                    'Location',
-                    'History',
-                    'People',
+                    'categories',
                 ]
             },
             exporting: { enabled: false },
             credits: { enabled: false },
+			colorByPoint: false,
             series: [{
-                name: 'Correct Answers',
-                colorByPoint: false,
-                data: [{
-                    name: 'Trivia',
-                    y: T_per,
-                    color:'#884dff'
+				name: 'Trivia',
+                data: [T_per],
+				color:'#884dff'
+                  
                 }, {
                     name: 'Location',
-                    y: L_per,
-                    color:'#008ae6'
+                    data:[L_per ],
+					color:'#008ae6'
                 }, {
                     name: 'People',
-                    y: P_per,
-                    color:'#ff4dc4'
+                    data: [P_per],
+					color:'#ff4dc4'
                 }, {
                     name: 'History',
-                    y: H_per,
-                    color:'#33ffad'
+                    data: [H_per],
+					color:'#33ffad'
                 }]
-            }]
+            });
         });
     });
-});
 
 $.fn.pageMe = function(opts){
 var $this = this,
