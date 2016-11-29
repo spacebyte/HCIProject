@@ -9,6 +9,13 @@
 
 <div class="container main-quiz-container" id="main">
 
+    <div class='fullscreenDiv'>
+        <div class="center">
+            <h1 class="bonus-num">+7</h1>
+            <h3 class="bonus-text">TIME BONUS</h3>
+        </div>
+    </div>​
+
     <!-- FADE MODAL -->
     <div class="fadeMe" id="fader">
         <div class="container">
@@ -109,18 +116,18 @@
             </div>
             <div class ="row">
                 <div class = "col-md-6" style = "text-align:center">
-                    <button type="button" class="btn answer-btn btn-primary" style = "border-radius:30px; width : 100% ; margin: 10px;" id="button_1">
+                    <button type="button" class="btn answer-btn answer-btn-style" style = "border-radius:30px; width : 100% ; margin: 10px;" id="button_1">
                         <h1 id="answer_1"></h1>
                     </button>
-                    <button type="button" class="btn answer-btn btn-primary" style = "border-radius:30px; width : 100% ; margin: 10px;" id="button_2">
+                    <button type="button" class="btn answer-btn answer-btn-style" style = "border-radius:30px; width : 100% ; margin: 10px;" id="button_2">
                         <h1 id="answer_2"></h1>
                     </button>
                 </div>
                 <div class = "col-md-6" style = "text-align:center;">
-                    <button type="button" class="btn answer-btn btn-primary" style = "border-radius:30px; width : 100% ; margin: 10px;" id="button_3">
+                    <button type="button" class="btn answer-btn answer-btn-style" style = "border-radius:30px; width : 100% ; margin: 10px;" id="button_3">
                         <h1 id="answer_3"></h1>
                     </button>
-                    <button type="button" class="btn answer-btn btn-primary" style = "border-radius:30px; width : 100% ; margin: 10px;" id="button_4">
+                    <button type="button" class="btn answer-btn answer-btn-style" style = "border-radius:30px; width : 100% ; margin: 10px;" id="button_4">
                         <h1 id="answer_4"></h1>
                     </button>
                 </div>
@@ -165,6 +172,20 @@
         "L": 0,
         "P": 0,
         "H": 0
+    }
+
+    for (var i = 0; i < questions.length; i++){
+        switch (questions[i].category) {
+            case "T": question_count.T += 10
+            break;
+            case "L": question_count.L += 10
+            break;
+            case "H": question_count.H += 10
+            break;
+            case "P": question_count.P += 10
+            break;
+            default: console.log("CATEGORY NOT FOUND");
+        }
     }
 
     var bonus = 0;
@@ -259,7 +280,7 @@
         if ($(this).val() == "correct"){
             ++answers_correct;
             play_correct();
-            $(this).removeClass("btn-primary");
+            $(this).removeClass("answer-btn-style");
             $(this).addClass("btn-success");
             $('#result_text').removeClass("incorrect-text");
             $('#result_text').removeClass("correct-text");
@@ -267,6 +288,7 @@
             string = "CORRECT"
             progress_class(q_id+1, "in-progress", "success-color");
             score.B += Math.round(time/10);
+            $('#text').animate({'opacity': 'show', 'paddingTop': 0});
             var category = questions[q_id].category;
             add_to_score(category);
         } else {
@@ -274,9 +296,9 @@
             $('#result_text').removeClass("incorrect-text");
             $('#result_text').removeClass("correct-text");
             $('#result_text').addClass("incorrect-text");
-            $(this).removeClass("btn-primary");
+            $(this).removeClass("answer-btn-style");
             $(this).addClass("btn-danger");
-            $('.answer-btn').filter(function(){return this.value=='correct'}).removeClass("btn-primary");
+            $('.answer-btn').filter(function(){return this.value=='correct'}).removeClass("answer-btn-style");
             $('.answer-btn').filter(function(){return this.value=='correct'}).addClass("btn-success");
             string = "INCORRECT"
             progress_class(q_id+1, "in-progress", "danger-color");
@@ -286,7 +308,7 @@
         $('#learn_text').text(learn_text);
         $('#fader').fadeIn();
         time = 100;
-        answered=true;
+        answered = true;
         $("#timer").css('height', String(time)+"%");
         $("#invisidiv").css('height', String(0)+"%");
     });
@@ -334,12 +356,12 @@
         answered = true;
         handled = true;
         change();
-        fired=true;
+        fired = true;
         time = 100;
         $("#timer").css('height', String(time)+"%");
         $("#invisidiv").css('height', String(0)+"%");
         progress_class(q_id+1, "in-progress", "danger-color");
-        $('.answer-btn').filter(function(){return this.value=='correct'}).removeClass("btn-primary");
+        $('.answer-btn').filter(function(){return this.value=='correct'}).removeClass("answer-btn-style");
         $('.answer-btn').filter(function(){return this.value=='correct'}).addClass("btn-success");
     }
 
@@ -354,8 +376,8 @@
     function reset_buttons(){
         $(".btn").removeClass("btn-success");
         $(".btn").removeClass("btn-danger");
-        $(".btn").removeClass("btn-primary");
-        $(".btn").addClass("btn-primary");
+        $(".btn").removeClass("answer-btn-styley");
+        $(".btn").addClass("answer-btn-style");
 
     }
 
@@ -376,14 +398,13 @@
 
     function end_quiz(){
         quiz_completed = true;
-        answered=true;
-        time=0;
+        answered = true;
+        time = 0;
         $("#answers_correct").html("YOU GOT " + answers_correct + " OUT OF 10 QUESTIONS CORRECT");
-        //init_chart();
-        $("#L_score").html(score.L);
-        $("#H_score").html(score.H);
-        $("#P_score").html(score.P);
-        $("#T_score").html(score.T);
+        $("#L_score").html(score.L + "<sub>/" + question_count.L +"</sub>");
+        $("#H_score").html(score.H + "<sub>/" + question_count.H +"</sub>");
+        $("#P_score").html(score.P + "<sub>/" + question_count.P +"</sub>");
+        $("#T_score").html(score.T + "<sub>/" + question_count.T +"</sub>");
         $("#B_score").html("+"+score.B+" TIME BONUS");
         var string = "QUIZ COMPLETED";
         $('#end_state').fadeIn()
@@ -431,66 +452,5 @@
     $(".answer-btn").mouseover( function(){
         play_click();
     });
-
-    function init_chart() {
-    Highcharts.chart('chart-container', {
-        chart: {
-            plotBackgroundColor: "#333",
-            plotBorderWidth: 0,
-            plotShadow: false,
-            margin: [0,0,0,0],
-            spacing: [1,1,1,1],
-            padding: [0,0,0,0],
-            height: 300,
-        },
-        title: {
-            text: 'Score<br>breakdown',
-            align: 'center',
-            verticalAlign: 'middle',
-            y: 40,
-            style: {color: "#FFF"}
-        },
-        tooltip: {
-            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-        },
-        exporting: { enabled: false },
-        credits: { enabled: false },
-        plotOptions: {
-            pie: {
-                borderWidth: 2,
-                borderColor: "#333",
-                dataLabels: {
-                    enabled: true,
-                    distance: -50,
-                    style: {
-                        color: 'white'
-                    }
-                },
-                startAngle: -90,
-                endAngle: 90,
-                center: ['50%', '75%'],
-                size: "100%",
-            }
-        },
-        series: [{
-            type: 'pie',
-            name: 'Score',
-            innerSize: '50%',
-            data: [
-                ['Location', score.L],
-                ['People', score.P],
-                ['History', score.H],
-                ['Trivia', score.T],
-                {
-                    name: 'Proprietary or Undetectable',
-                    y: 0.2,
-                    dataLabels: {
-                        enabled: false
-                    }
-                }
-            ]
-        }]
-    });
-}
 </script>
 {% endblock %}
