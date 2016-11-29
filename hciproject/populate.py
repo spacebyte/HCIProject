@@ -317,12 +317,22 @@ questions = [
     {
         "answers": {
             "correct": "Clockwork orange",
-            "incorrect": ["Orange circle", "Underground", "Metro"],
+            "incorrect": ["Orange circle", "The Tube", "Metro"],
         },
         "question": "Which of these is a nickname for the Glasgow subway system?",
         "image": "question_images/021.jpg",
         "category": "T",
         "learn_text": "Clockwork Orange is the nickname due to vibrant orange livery and the trains run clockwise, or anti-clockwise in a circle."
+    },
+	{
+        "answers": {
+            "correct": "Merkland Street Station",
+            "incorrect": ["Vine Street Station", "Peel Street Station", "Hayburn Street Station"],
+        },
+        "question": "What was the name of the subway station Patrick replaced?",
+        "image": "question_images/021.jpg",
+        "category": "L",
+        "learn_text": " Merkland Street closed in 1977 - it is the only station on the system that has closed permanently. "
     },
     {
         "answers": {
@@ -473,16 +483,6 @@ questions = [
         "image": "question_images/034.jpg",
         "category": "T",
         "learn_text": "Tennents lager is produced in the Wellpark Brewery on Duke Street which was established in 1740."
-    },
-    {
-        "answers": {
-            "correct": "Sauchiehall Street",
-            "incorrect": ["Argyle Street", "Byres Road", "Jamaica Street"],
-        },
-        "question": "On which Glasgow street would you find the Royal Concert Hall",
-        "image": "question_images/035.jpg",
-        "category": "L",
-        "learn_text": "The Royal Concert Hall opened in 1990. It's address is Buchanan Galleries, 2 Sauchiehall Street."
     },
     {
         "answers": {
