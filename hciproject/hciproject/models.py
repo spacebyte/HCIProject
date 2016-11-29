@@ -22,6 +22,7 @@ class UserProfile(models.Model):
         return self.user.username
 
 
+	
 class Question(models.Model):
     id = models.IntegerField(primary_key=True)
     answers = JSONField()

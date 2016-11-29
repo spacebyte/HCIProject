@@ -24,6 +24,14 @@ def index(request):
     response = render(request,'index.html', context)
     return response
 
+def login_view(request):
+    form = LoginForm(request.POST or None)
+    if request.POST and form.is_valid():
+        user = form.login(request)
+        if user:
+            login(request, user)
+            return HttpResponseRedirect("/n1.html")# Redirect to a success page.
+    return render(request, 'enter.html', {'login_form': form })
 
 def quiz(request):
     context = {}

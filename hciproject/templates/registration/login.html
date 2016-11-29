@@ -12,7 +12,16 @@
 
 <h2 class="form-signin-heading" style = "text-align:center; margin:10px;">Please sign in</h2>
 <input class="form-control" placeholder="Username" id="id_username" maxlength="254" name="username" type="text" required autofocus="" style = "margin:10px;"/>
+
 <input type="password" class="form-control" placeholder="Password" id="id_password" name="password"style = "margin:10px;" type="password" required  />
+	
+{% if form.non_field_errors %}
+    <ul class='form-errors'>
+        {% for error in form.non_field_errors %}
+            <li>{{ error }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
 	
         <button class="btn btn-lg btn-primary btn-block" type="submit" value="Submit" style = "margin:10px;">Sign in</button>
         </form>
