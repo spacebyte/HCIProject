@@ -10,8 +10,8 @@
 <div class="container main-quiz-container" id="main">
 
     <div class='fullscreenDiv'>
-        <div class="center">
-            <h1 class="bonus-num">+7</h1>
+        <div class="center" id="bonus_score">
+            <h1 class="bonus-num" id="bonus_num"></h1>
             <h3 class="bonus-text">TIME BONUS</h3>
         </div>
     </div>​
@@ -272,8 +272,10 @@
             $('#result_text').removeClass("correct-text");
             $('#result_text').addClass("correct-text");
             string = "CORRECT"
+            $('#bonus_score').animate({'opacity': 'show', 'paddingTop': 0});
             progress_class(q_id+1, "in-progress", "success-color");
             score.B += Math.round(time/10);
+            $('#bonus_num').text("+" + String(Math.round(time/10)));
             $('#text').animate({'opacity': 'show', 'paddingTop': 0});
             var category = questions[q_id].category;
             add_to_score(category);
@@ -352,6 +354,8 @@
     }
 
     $('#next').click(function(){
+        $('#bonus_score').hide();
+        $('#bonus_score').animate({'paddingTop': '50px'});
         $('#fader').fadeOut()
         next_question();
         answered = false;
@@ -362,7 +366,7 @@
     function reset_buttons(){
         $(".btn").removeClass("btn-success");
         $(".btn").removeClass("btn-danger");
-        $(".btn").removeClass("answer-btn-styley");
+        $(".btn").removeClass("answer-btn-style");
         $(".btn").addClass("answer-btn-style");
 
     }
