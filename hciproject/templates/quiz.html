@@ -174,20 +174,6 @@
         "H": 0
     }
 
-    for (var i = 0; i < questions.length; i++){
-        switch (questions[i].category) {
-            case "T": question_count.T += 10
-            break;
-            case "L": question_count.L += 10
-            break;
-            case "H": question_count.H += 10
-            break;
-            case "P": question_count.P += 10
-            break;
-            default: console.log("CATEGORY NOT FOUND");
-        }
-    }
-
     var bonus = 0;
 
 
@@ -401,10 +387,10 @@
         answered = true;
         time = 0;
         $("#answers_correct").html("YOU GOT " + answers_correct + " OUT OF 10 QUESTIONS CORRECT");
-        $("#L_score").html(score.L + "<sub>/" + question_count.L +"</sub>");
-        $("#H_score").html(score.H + "<sub>/" + question_count.H +"</sub>");
-        $("#P_score").html(score.P + "<sub>/" + question_count.P +"</sub>");
-        $("#T_score").html(score.T + "<sub>/" + question_count.T +"</sub>");
+        $("#L_score").html(score.L + "<sub>/" + (question_count.L)*10 +"</sub>");
+        $("#H_score").html(score.H + "<sub>/" + (question_count.H)*10 +"</sub>");
+        $("#P_score").html(score.P + "<sub>/" + (question_count.P)*10 +"</sub>");
+        $("#T_score").html(score.T + "<sub>/" + (question_count.T)*10 +"</sub>");
         $("#B_score").html("+"+score.B+" TIME BONUS");
         var string = "QUIZ COMPLETED";
         $('#end_state').fadeIn()
@@ -419,7 +405,7 @@
             data : {
                 csrfmiddlewaretoken: "{{ csrf_token }}",   // < here
                 score: score,
-                questions: questions
+                questions: question_count
             },
             success : function() {
                 console.log("success");

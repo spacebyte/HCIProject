@@ -127,7 +127,7 @@ def send_score(request):
         current_questions['T'] += int(T_questions)
         profile.number_of_questions = current_questions
 
-        profile.number_of_quizes += 1
+        profile.quizes_played += 1
 
         profile.save()
         print profile.score
