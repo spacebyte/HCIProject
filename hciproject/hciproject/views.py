@@ -74,14 +74,15 @@ def register_profile(request):
 def profile(request):
     context = {}
     user = User.objects.get(id=request.user.id)
-    print user.username
-    try:
-        profile = UserProfile.objects.get(user=user)
-    except:
-        profile = None
-        print "NO PROFILE"
+    profile = UserProfile.objects.get(user=user)
     profiles = UserProfile.objects.all().order_by('-total_score')
     local_profiles = profiles.filter(location=profile.location)
+    location = profile.get_location_display()
+    total_questions = 0
+    for category in profile.number_of_questions:
+        total_questions += profile.number_of_questions[category]
+    context['questions_answered'] = total_questions
+    context['location'] = location
     context['all_profiles'] = profiles
     context['local_profiles'] = local_profiles
     context['userprofile'] = profile
@@ -114,6 +115,20 @@ def send_score(request):
         current_score['B'] += int(B_score)
         profile.score = current_score
         profile.total_score = total_score(current_score)
+
+        L_questions = request.POST.get('questions[L]')
+        H_questions = request.POST.get('questions[H]')
+        P_questions = request.POST.get('questions[P]')
+        T_questions = request.POST.get('questions[T]')
+        current_questions = profile.number_of_questions
+        current_questions['L'] += int(L_questions)
+        current_questions['H'] += int(H_questions)
+        current_questions['P'] += int(P_questions)
+        current_questions['T'] += int(T_questions)
+        profile.number_of_questions = current_questions
+
+        profile.number_of_quizes += 1
+
         profile.save()
         print profile.score
         response_data = {"post": "success"}

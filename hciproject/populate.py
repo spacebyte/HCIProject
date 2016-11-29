@@ -45,6 +45,10 @@ profiles = [
         "score": {
             "L": 0, "T": 0, "H": 0, "P": 0, "B": 0
         },
+        "number_of_questions": {
+            "L": 30, "T": 40, "H": 50, "P": 60
+        },
+        "quizes_played": 20,
         "location" : "W"
     },
     {
@@ -55,6 +59,10 @@ profiles = [
         "score": {
             "L": 100, "T": 100, "H": 100, "P": 100, "B": 100
         },
+        "number_of_questions": {
+            "L": 30, "T": 40, "H": 50, "P": 60
+        },
+        "quizes_played": 20,
         "location" : "W"
     },
     {
@@ -65,6 +73,10 @@ profiles = [
         "score": {
             "L": 200, "T": 200, "H": 200, "P": 200, "B": 200
         },
+        "number_of_questions": {
+            "L": 30, "T": 40, "H": 50, "P": 60
+        },
+        "quizes_played": 20,
         "location" : "W"
     },
     {
@@ -75,6 +87,10 @@ profiles = [
         "score": {
             "L": 0, "T": 0, "H": 0, "P": 0, "B": 0
         },
+        "number_of_questions": {
+            "L": 30, "T": 40, "H": 50, "P": 60
+        },
+        "quizes_played": 20,
         "location" : "W"
     },
     {
@@ -85,6 +101,10 @@ profiles = [
         "score": {
             "L": 300, "T": 300, "H": 300, "P": 300, "B": 300
         },
+        "number_of_questions": {
+            "L": 30, "T": 40, "H": 50, "P": 60
+        },
+        "quizes_played": 20,
         "location" : "W"
     },
     {
@@ -95,6 +115,10 @@ profiles = [
         "score": {
             "L": 300, "T": 300, "H": 300, "P": 300, "B": 400
         },
+        "number_of_questions": {
+            "L": 30, "T": 40, "H": 50, "P": 60
+        },
+        "quizes_played": 20,
         "location" : "N"
     }
 ]
@@ -513,13 +537,15 @@ def add_question(answers, question, image, category, learn_text, id):
     )[0]
     return q
 
-def add_profile(user, picture, score, total_score, location):
+def add_profile(user, picture, score, total_score, location, number_of_questions, quizes_played):
     p = UserProfile.objects.get_or_create(
         user=user,
         picture=picture,
         score=score,
         total_score=total_score,
-        location=location
+        location=location,
+        number_of_questions=number_of_questions,
+        quizes_played=quizes_played
     )[0]
     return p
 
@@ -538,7 +564,9 @@ def populate():
             profile["picture"],
             profile["score"],
             total_score(profile["score"]),
-            profile["location"]
+            profile["location"],
+            profile["number_of_questions"],
+            profile["quizes_played"]
         )
     print "Questions: ", len(questions)
     i = 0

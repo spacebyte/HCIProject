@@ -160,6 +160,13 @@
         "B": 0
     }
 
+    var question_count = {
+        "T": 0,
+        "L": 0,
+        "P": 0,
+        "H": 0
+    }
+
     var bonus = 0;
 
 
@@ -210,6 +217,7 @@
         $('#timer').addClass("progress-bar-success");
         reset_buttons();
         var question = questions[id];
+        add_to_question_count(question.category);
         $("#question").html(question.question);
         $("#image").attr("src", '/media/'+question.image);
         load_buttons(question.answers);
@@ -282,6 +290,18 @@
         $("#timer").css('height', String(time)+"%");
         $("#invisidiv").css('height', String(0)+"%");
     });
+
+    function add_to_question_count(category){
+        switch (category) {
+            case "T": question_count.T += 1
+            break;
+            case "L": question_count.L += 1
+            break;
+            case "H": question_count.H += 1
+            break;
+            default: question_count.P += 1
+        }
+    }
 
     function add_to_score(category){
         switch (category) {
@@ -377,7 +397,8 @@
             type : "POST",
             data : {
                 csrfmiddlewaretoken: "{{ csrf_token }}",   // < here
-                score: score
+                score: score,
+                questions: questions
             },
             success : function() {
                 console.log("success");
